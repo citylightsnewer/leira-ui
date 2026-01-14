@@ -2,11 +2,24 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
+import { copyFileSync } from 'fs'
 
 export default defineConfig(({ mode }) => {
   if (mode === 'lib') {
     return {
-      plugins: [react()],
+      plugins: [
+        react(),
+        {
+          name: 'copy-styles',
+          closeBundle() {
+            // Copy styles.css to dist-lib
+            copyFileSync(
+              resolve(__dirname, 'src/components/ui/styles.css'),
+              resolve(__dirname, 'dist-lib/styles.css')
+            )
+          }
+        }
+      ],
       build: {
         lib: {
           entry: resolve(__dirname, 'src/components/ui/index.ts'),
@@ -26,7 +39,8 @@ export default defineConfig(({ mode }) => {
           }
         },
         sourcemap: true,
-        minify: 'esbuild'
+        minify: 'esbuild',
+        cssCodeSplit: false
       }
     }
   }

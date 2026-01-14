@@ -1,3 +1,4 @@
+import './styles.css';
 export { Card, CardHeader, CardBody, CardFooter, ImageCard } from './Card';
 export { Button } from './Button';
 export { Input, Textarea } from './Input';

@@ -222,8 +222,8 @@ export default defineConfig({
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>1</span>
                   <div className='flex-1'>
                     <p className='font-medium text-[var(--text-primary)] mb-3'>Instala el paquete Leira UI</p>
-                    <CodePreview code='npm install leira-ui' title='Terminal'>
-                      <span className='text-sm text-[var(--text-muted)]'>Ejecuta en la raíz de tu proyecto</span>
+                    <CodePreview code='npm install leira-ui lucide-react' title='Terminal'>
+                      <span className='text-sm text-[var(--text-muted)]'>lucide-react es opcional, solo si usas componentes con iconos</span>
                     </CodePreview>
                   </div>
                 </div>
@@ -232,9 +232,15 @@ export default defineConfig({
                 <div className='flex gap-4 mb-6'>
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>2</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Instala lucide-react (opcional, para iconos)</p>
-                    <CodePreview code='npm install lucide-react' title='Terminal'>
-                      <span className='text-sm text-[var(--text-muted)]'>Solo si usas componentes que requieren iconos</span>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los estilos en tu archivo CSS</p>
+                    <CodePreview
+                      code={`@import "tailwindcss";
+
+/* Permite que Tailwind genere los estilos de leira-ui */
+@source "../node_modules/leira-ui";`}
+                      title='src/index.css'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Agrega @source para que Tailwind incluya los estilos de la librería</span>
                     </CodePreview>
                   </div>
                 </div>
@@ -243,7 +249,22 @@ export default defineConfig({
                 <div className='flex gap-4 mb-6'>
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>3</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los componentes que necesites</p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los estilos del tema (opcional)</p>
+                    <CodePreview
+                      code={`// En main.tsx o App.tsx
+import 'leira-ui/styles.css'`}
+                      title='main.tsx'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Esto importa las variables CSS y animaciones del tema oscuro</span>
+                    </CodePreview>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>4</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Usa los componentes</p>
                     <CodePreview
                       code={`import { Button, Card, CardBody, Input, Alert } from 'leira-ui'
 
@@ -264,9 +285,9 @@ function App() {
                   </div>
                 </div>
 
-                {/* Step 4 */}
+                {/* Step 5 */}
                 <div className='flex gap-4'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>4</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>5</span>
                   <div className='flex-1'>
                     <p className='font-medium text-[var(--text-primary)] mb-3'>¡Listo! Ya puedes usar los componentes</p>
                     <p className='text-sm text-[var(--text-secondary)]'>
