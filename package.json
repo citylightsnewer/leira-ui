@@ -77,10 +77,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/leira-ui"
+    "url": "https://github.com/citylightsnewer/leira-ui"
   },
   "homepage": "https://leira-ui.vercel.app",
   "bugs": {
-    "url": "https://github.com/your-username/leira-ui/issues"
+    "url": "https://github.com/citylightsnewer/leira-ui/issues"
   }
 }
