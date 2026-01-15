@@ -2,6 +2,7 @@ import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Card, CardHeader, CardBody, CardFooter, ImageCard } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const cardCode = `import { type ReactNode } from 'react'
 
@@ -82,27 +83,47 @@ const cardProps = [
   { name: 'className', type: 'string', default: "''", description: 'Clases CSS adicionales' }
 ]
 
-export function CardsPage () {
+export function CardsPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
+
+  const importStatement = isNpm
+    ? `import { Card, CardHeader, CardBody, CardFooter, ImageCard } from 'leira-ui'`
+    : `import { Card, CardHeader, CardBody, CardFooter, ImageCard } from './components/ui/Card'`
+
+  const basicCode = `${importStatement}
+
+<Card>
+  <CardHeader><h3>Título</h3></CardHeader>
+  <CardBody><p>Contenido</p></CardBody>
+  <CardFooter><Button>Acción</Button></CardFooter>
+</Card>`
+
+  const hoverCode = `${importStatement}
+
+<Card hover>
+  <CardBody>
+    <h4>Hover Effect</h4>
+    <p>Pasa el cursor para ver el efecto.</p>
+  </CardBody>
+</Card>`
+
   return (
     <>
       <PageHeader title='Card' description='Tarjetas con headers, footers, efectos hover y variantes de imagen.' />
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={cardCode} title='Card.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>
-            Haz clic en &quot;Ver código&quot; para ver el componente completo.
-          </div>
-        </CodePreview>
-      </Section>
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={cardCode} title='Card.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>
+              Haz clic en &quot;Ver código&quot; para ver el componente completo.
+            </div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Card Básica'>
-        <CodePreview
-          code={`<Card>
-  <CardHeader><h3>Título</h3></CardHeader>
-  <CardBody><p>Contenido</p></CardBody>
-  <CardFooter><Button>Acción</Button></CardFooter>
-</Card>`} title='Card con Header, Body y Footer'
-        >
+        <CodePreview code={basicCode} title='Card con Header, Body y Footer'>
           <Card className='w-full max-w-sm'>
             <CardHeader><h3 className='font-semibold'>Título de la Card</h3></CardHeader>
             <CardBody><p className='text-[var(--text-secondary)] text-sm'>Este es el contenido del body de la card.</p></CardBody>
@@ -112,7 +133,7 @@ export function CardsPage () {
       </Section>
 
       <Section title='Card con Hover'>
-        <CodePreview code='<Card hover>...</Card>'>
+        <CodePreview code={hoverCode}>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
             <Card hover><CardBody><h4 className='font-semibold mb-2'>Hover Effect</h4><p className='text-sm text-[var(--text-secondary)]'>Pasa el cursor para ver el efecto.</p></CardBody></Card>
             <Card hover><CardBody><h4 className='font-semibold mb-2'>Elevación</h4><p className='text-sm text-[var(--text-secondary)]'>La card se eleva con borde púrpura.</p></CardBody></Card>
@@ -121,13 +142,41 @@ export function CardsPage () {
         </CodePreview>
       </Section>
 
-      <Section title='Image Card'>
-        <CodePreview code='<ImageCard image="url" title="Título" description="Descripción" />'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
-            <ImageCard image='https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop' title='Desarrollo Web' description='Crea aplicaciones web modernas' />
-            <ImageCard image='https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop' title='Diseño UI/UX' description='Interfaces intuitivas y atractivas' />
-            <ImageCard image='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop' title='Analytics' description='Visualiza tus datos' />
+      <Section title='Image Card Simple'>
+        <CodePreview code={`${importStatement}
+
+<ImageCard 
+  image="https://..." 
+  title="Título" 
+  description="Descripción" 
+/>`}>
+          <div className='w-full max-w-sm'>
+            <ImageCard
+              image='https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop'
+              title='Desarrollo Web'
+              description='Crea aplicaciones web modernas con React y Tailwind CSS'
+            />
           </div>
+        </CodePreview>
+      </Section>
+
+      <Section title='Grid de Cards'>
+        <CodePreview code={`${importStatement}
+
+{/* Contenedor padre con grid de cards */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <ImageCard image="..." title="Card 1" description="..." />
+  <ImageCard image="..." title="Card 2" description="..." />
+  <ImageCard image="..." title="Card 3" description="..." />
+</div>`}>
+          <Card className='w-full p-6'>
+            <h3 className='text-lg font-semibold mb-4'>Nuestros Servicios</h3>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+              <ImageCard image='https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop' title='Desarrollo Web' description='Aplicaciones web modernas' />
+              <ImageCard image='https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop' title='Diseño UI/UX' description='Interfaces atractivas' />
+              <ImageCard image='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop' title='Analytics' description='Visualiza tus datos' />
+            </div>
+          </Card>
         </CodePreview>
       </Section>
 

@@ -2,6 +2,7 @@ import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Input, Textarea } from '../components/ui/Input'
 import { Mail, Lock, Search, Eye, User } from 'lucide-react'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const inputCode = `import { type InputHTMLAttributes, type TextareaHTMLAttributes, type ReactNode, forwardRef } from 'react'
 
@@ -107,27 +108,22 @@ const inputProps = [
   { name: 'rightIcon', type: 'ReactNode', default: '-', description: 'Icono a la derecha' }
 ]
 
-export function InputsPage () {
-  return (
-    <>
-      <PageHeader title='Input' description='Campos de entrada con labels, iconos, estados de error y ayudas.' />
+export function InputsPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={inputCode} title='Input.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>
-            Haz clic en &quot;Ver código&quot; para ver el componente completo.
-          </div>
-        </CodePreview>
-      </Section>
+  const importStatement = isNpm
+    ? `import { Input, Textarea } from 'leira-ui'`
+    : `import { Input, Textarea } from './components/ui/Input'`
 
-      <Section title='Input Básico'>
-        <CodePreview code='<Input label="Email" placeholder="tucorreo@ejemplo.com" type="email" />' title='Input con label'>
-          <div className='w-full max-w-sm'><Input label='Email' placeholder='tucorreo@ejemplo.com' type='email' /></div>
-        </CodePreview>
-      </Section>
+  const basicCode = `${importStatement}
 
-      <Section title='Con Iconos'>
-        <CodePreview code={`<Input
+<Input label="Email" placeholder="tucorreo@ejemplo.com" type="email" />`
+
+  const iconsCode = `${importStatement}
+import { Mail, Lock, Eye } from 'lucide-react'
+
+<Input
   label="Email"
   placeholder="tucorreo@ejemplo.com"
   leftIcon={<Mail className="w-4 h-4" />}
@@ -138,8 +134,40 @@ export function InputsPage () {
   type="password"
   leftIcon={<Lock className="w-4 h-4" />}
   rightIcon={<Eye className="w-4 h-4" />}
-/>`}
-        >
+/>`
+
+  const statesCode = `${importStatement}
+
+<Input error="Por favor ingresa un email válido" />
+<Input hint="Solo letras, números y guiones bajos" />
+<Input disabled />`
+
+  const textareaCode = `${importStatement}
+
+<Textarea label="Mensaje" rows={4} placeholder="Escribe tu mensaje..." />`
+
+  return (
+    <>
+      <PageHeader title='Input' description='Campos de entrada con labels, iconos, estados de error y ayudas.' />
+
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={inputCode} title='Input.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>
+              Haz clic en &quot;Ver código&quot; para ver el componente completo.
+            </div>
+          </CodePreview>
+        </Section>
+      )}
+
+      <Section title='Input Básico'>
+        <CodePreview code={basicCode} title='Input con label'>
+          <div className='w-full max-w-sm'><Input label='Email' placeholder='tucorreo@ejemplo.com' type='email' /></div>
+        </CodePreview>
+      </Section>
+
+      <Section title='Con Iconos'>
+        <CodePreview code={iconsCode}>
           <div className='w-full max-w-sm space-y-4'>
             <Input label='Email' placeholder='tucorreo@ejemplo.com' leftIcon={<Mail className='w-4 h-4' />} />
             <Input label='Contraseña' type='password' placeholder='••••••••' leftIcon={<Lock className='w-4 h-4' />} rightIcon={<Eye className='w-4 h-4 cursor-pointer hover:text-[var(--text-primary)]' />} />
@@ -149,10 +177,7 @@ export function InputsPage () {
       </Section>
 
       <Section title='Estados'>
-        <CodePreview code={`<Input error="Por favor ingresa un email válido" />
-<Input hint="Solo letras, números y guiones bajos" />
-<Input disabled />`}
-        >
+        <CodePreview code={statesCode}>
           <div className='w-full max-w-sm space-y-4'>
             <Input label='Email inválido' leftIcon={<Mail className='w-4 h-4' />} error='Por favor ingresa un email válido' defaultValue='correo-invalido' />
             <Input label='Usuario' leftIcon={<User className='w-4 h-4' />} hint='Solo letras, números y guiones bajos' placeholder='Nombre de usuario' />
@@ -162,7 +187,7 @@ export function InputsPage () {
       </Section>
 
       <Section title='Textarea'>
-        <CodePreview code='<Textarea label="Mensaje" rows={4} placeholder="Escribe tu mensaje..." />'>
+        <CodePreview code={textareaCode}>
           <div className='w-full max-w-sm space-y-4'>
             <Textarea label='Mensaje' placeholder='Escribe tu mensaje aquí...' rows={4} />
             <Textarea label='Con error' rows={3} error='El mensaje es demasiado corto' defaultValue='Hola' />

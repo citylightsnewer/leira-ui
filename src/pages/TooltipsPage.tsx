@@ -3,6 +3,7 @@ import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Tooltip } from '../components/ui/Tooltip'
 import { Button } from '../components/ui/Button'
 import { Info } from 'lucide-react'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const tooltipCode = `import { useState, type ReactNode, useRef, useEffect } from 'react'
 
@@ -72,23 +73,41 @@ const tooltipProps = [
   { name: 'delay', type: 'number', default: '200', description: 'Delay en ms antes de mostrar' }
 ]
 
-export function TooltipsPage () {
+export function TooltipsPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
+
+  const importStatement = isNpm
+    ? `import { Tooltip, Button } from 'leira-ui'`
+    : `import { Tooltip } from './components/ui/Tooltip'
+import { Button } from './components/ui/Button'`
+
+  const positionsCode = `${importStatement}
+
+<Tooltip content="Arriba" position="top"><Button>Top</Button></Tooltip>
+<Tooltip content="Abajo" position="bottom"><Button>Bottom</Button></Tooltip>
+<Tooltip content="Izquierda" position="left"><Button>Left</Button></Tooltip>
+<Tooltip content="Derecha" position="right"><Button>Right</Button></Tooltip>`
+
+  const iconsCode = `${importStatement}
+import { Info } from 'lucide-react'
+
+<span>Campo <Tooltip content="Texto de ayuda"><Info /></Tooltip></span>`
+
   return (
     <>
       <PageHeader title='Tooltip' description='Tooltips con posicionamiento flexible y delay configurable.' />
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={tooltipCode} title='Tooltip.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={tooltipCode} title='Tooltip.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Posiciones'>
-        <CodePreview code={`<Tooltip content="Arriba" position="top"><Button>Top</Button></Tooltip>
-<Tooltip content="Abajo" position="bottom"><Button>Bottom</Button></Tooltip>
-<Tooltip content="Izquierda" position="left"><Button>Left</Button></Tooltip>
-<Tooltip content="Derecha" position="right"><Button>Right</Button></Tooltip>`}
-        >
+        <CodePreview code={positionsCode}>
           <Tooltip content='Tooltip arriba' position='top'><Button variant='secondary'>Top</Button></Tooltip>
           <Tooltip content='Tooltip abajo' position='bottom'><Button variant='secondary'>Bottom</Button></Tooltip>
           <Tooltip content='Tooltip izquierda' position='left'><Button variant='secondary'>Left</Button></Tooltip>
@@ -97,7 +116,7 @@ export function TooltipsPage () {
       </Section>
 
       <Section title='Con Iconos'>
-        <CodePreview code={'<span>Campo <Tooltip content="Texto de ayuda"><Info /></Tooltip></span>'}>
+        <CodePreview code={iconsCode}>
           <div className='flex items-center gap-2'>
             <span className='text-[var(--text-secondary)]'>Pasa el cursor sobre el icono</span>
             <Tooltip content='Este es un texto de ayuda informativo'>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Alert } from '../components/ui/Alert'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const alertCode = `import { type ReactNode } from 'react'
 import { X, CheckCircle, AlertTriangle, XCircle, Info } from 'lucide-react'
@@ -57,32 +58,65 @@ const alertProps = [
   { name: 'onDismiss', type: '() => void', default: '-', description: 'Callback al cerrar' }
 ]
 
-export function AlertsPage () {
+export function AlertsPage() {
   const [showDismissible, setShowDismissible] = useState(true)
+  const { installMethod } = useInstallMethod()
+
+  const isNpm = installMethod === 'npm'
+
+  // Import statement based on install method
+  const importStatement = isNpm
+    ? `import { Alert } from 'leira-ui'`
+    : `import { Alert } from './components/ui/Alert'`
+
+  // Code examples with proper import
+  const variantsCode = `${importStatement}
+
+<Alert variant="success">Operación completada exitosamente.</Alert>
+<Alert variant="warning">Hay campos que requieren atención.</Alert>
+<Alert variant="error">Ha ocurrido un error.</Alert>
+<Alert variant="info">Mensaje informativo.</Alert>`
+
+  const titleCode = `${importStatement}
+
+<Alert variant="success" title="¡Éxito!">Tu cuenta ha sido creada.</Alert>
+<Alert variant="warning" title="Atención">Tu sesión expirará pronto.</Alert>`
+
+  const dismissibleCode = `${importStatement}
+
+<Alert 
+  variant="info" 
+  dismissible 
+  onDismiss={() => setShow(false)}
+>
+  Haz clic en la X para cerrar.
+</Alert>`
 
   return (
     <>
       <PageHeader title='Alert' description='Alertas de notificación con diferentes variantes y estados.' />
 
-      <Alert variant='info' title='Dependencia requerida' className='mb-6'>
-        Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para los iconos.
-        Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
-      </Alert>
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={alertCode} title='Alert.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>
-            Haz clic en &quot;Ver código&quot; para ver el componente completo.
-          </div>
-        </CodePreview>
-      </Section>
+      {/* Dependency alert - only show for copy/paste method */}
+      {!isNpm && (
+        <Alert variant='info' title='Dependencia requerida' className='mb-6'>
+          Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para los iconos.
+          Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
+        </Alert>
+      )}
+
+      {/* Full code - only show for copy/paste method */}
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={alertCode} title='Alert.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>
+              Haz clic en &quot;Ver código&quot; para ver el componente completo.
+            </div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Variantes'>
-        <CodePreview
-          code={`<Alert variant="success">Operación completada exitosamente.</Alert>
-<Alert variant="warning">Hay campos que requieren atención.</Alert>
-<Alert variant="error">Ha ocurrido un error.</Alert>
-<Alert variant="info">Mensaje informativo.</Alert>`} title='Todas las variantes'
-        >
+        <CodePreview code={variantsCode} title='Todas las variantes'>
           <div className='w-full space-y-4'>
             <Alert variant='success'>Operación completada exitosamente.</Alert>
             <Alert variant='warning'>Hay algunos campos que requieren atención.</Alert>
@@ -93,7 +127,7 @@ export function AlertsPage () {
       </Section>
 
       <Section title='Con Título'>
-        <CodePreview code='<Alert variant="success" title="¡Éxito!">Mensaje</Alert>'>
+        <CodePreview code={titleCode}>
           <div className='w-full space-y-4'>
             <Alert variant='success' title='¡Éxito!'>Tu cuenta ha sido creada correctamente.</Alert>
             <Alert variant='warning' title='Atención'>Tu sesión expirará en 5 minutos.</Alert>
@@ -103,7 +137,7 @@ export function AlertsPage () {
       </Section>
 
       <Section title='Dismissible'>
-        <CodePreview code='<Alert dismissible onDismiss={() => setShow(false)}>Mensaje</Alert>'>
+        <CodePreview code={dismissibleCode}>
           <div className='w-full'>
             {showDismissible
               ? <Alert variant='info' title='Consejo' dismissible onDismiss={() => setShowDismissible(false)}>Haz clic en la X para cerrar.</Alert>

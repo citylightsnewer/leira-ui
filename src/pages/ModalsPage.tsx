@@ -5,6 +5,7 @@ import { Modal, ModalFooter } from '../components/ui/Modal'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { Alert } from '../components/ui/Alert'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const modalCode = `import { type ReactNode, useEffect, useCallback } from 'react'
 import { X } from 'lucide-react'
@@ -74,28 +75,21 @@ const modalProps = [
   { name: 'closeOnEscape', type: 'boolean', default: 'true', description: 'Cerrar al presionar Escape' }
 ]
 
-export function ModalsPage () {
+export function ModalsPage() {
   const [basicOpen, setBasicOpen] = useState(false)
   const [formOpen, setFormOpen] = useState(false)
   const [sizesOpen, setSizesOpen] = useState<string | null>(null)
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
 
-  return (
-    <>
-      <PageHeader title='Modal' description='Modales con animaciones, tamaños y comportamientos configurables.' />
+  const importStatement = isNpm
+    ? `import { Modal, ModalFooter, Button } from 'leira-ui'`
+    : `import { Modal, ModalFooter } from './components/ui/Modal'
+import { Button } from './components/ui/Button'`
 
-      <Alert variant='info' title='Dependencia requerida' className='mb-6'>
-        Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para el icono de cerrar.
-        Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
-      </Alert>
+  const basicCode = `${importStatement}
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={modalCode} title='Modal.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
-
-      <Section title='Modal Básico'>
-        <CodePreview code={`const [isOpen, setIsOpen] = useState(false)
+const [isOpen, setIsOpen] = useState(false)
 
 <Button onClick={() => setIsOpen(true)}>Abrir Modal</Button>
 
@@ -105,8 +99,43 @@ export function ModalsPage () {
     <Button variant="ghost" onClick={() => setIsOpen(false)}>Cancelar</Button>
     <Button onClick={() => setIsOpen(false)}>Aceptar</Button>
   </ModalFooter>
-</Modal>`}
-        >
+</Modal>`
+
+  const formCode = `${importStatement}
+
+<Modal title="Nuevo Usuario" size="lg">
+  <form>...</form>
+  <ModalFooter>...</ModalFooter>
+</Modal>`
+
+  const sizesCode = `${importStatement}
+
+<Modal size="sm">...</Modal>
+<Modal size="md">...</Modal>
+<Modal size="lg">...</Modal>
+<Modal size="xl">...</Modal>`
+
+  return (
+    <>
+      <PageHeader title='Modal' description='Modales con animaciones, tamaños y comportamientos configurables.' />
+
+      {!isNpm && (
+        <Alert variant='info' title='Dependencia requerida' className='mb-6'>
+          Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para el icono de cerrar.
+          Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
+        </Alert>
+      )}
+
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={modalCode} title='Modal.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
+
+      <Section title='Modal Básico'>
+        <CodePreview code={basicCode}>
           <Button onClick={() => setBasicOpen(true)}>Abrir Modal</Button>
           <Modal isOpen={basicOpen} onClose={() => setBasicOpen(false)} title='Modal Básico'>
             <p className='text-[var(--text-secondary)]'>Este es un modal básico con título. Puedes cerrarlo con la X, el overlay o Escape.</p>
@@ -119,7 +148,7 @@ export function ModalsPage () {
       </Section>
 
       <Section title='Modal con Formulario'>
-        <CodePreview code='<Modal title="Nuevo Usuario" size="lg">...</Modal>'>
+        <CodePreview code={formCode}>
           <Button onClick={() => setFormOpen(true)}>Abrir Formulario</Button>
           <Modal isOpen={formOpen} onClose={() => setFormOpen(false)} title='Nuevo Usuario' size='lg'>
             <form className='space-y-4'>
@@ -138,7 +167,7 @@ export function ModalsPage () {
       </Section>
 
       <Section title='Tamaños'>
-        <CodePreview code='<Modal size="sm">...</Modal>\n<Modal size="lg">...</Modal>'>
+        <CodePreview code={sizesCode}>
           <Button variant='secondary' onClick={() => setSizesOpen('sm')}>Small</Button>
           <Button variant='secondary' onClick={() => setSizesOpen('md')}>Medium</Button>
           <Button variant='secondary' onClick={() => setSizesOpen('lg')}>Large</Button>

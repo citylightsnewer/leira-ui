@@ -3,6 +3,7 @@ import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Accordion } from '../components/ui/Accordion'
 import { Alert } from '../components/ui/Alert'
 import { Zap, Shield, Rocket } from 'lucide-react'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const accordionCode = `import { useState, type ReactNode } from 'react'
 import { ChevronDown } from 'lucide-react'
@@ -79,42 +80,69 @@ const iconItems = [
   { id: '3', title: 'Velocidad', icon: <Rocket className='w-4 h-4 text-violet-400' />, content: 'Desarrollo rápido con componentes listos.' }
 ]
 
-export function AccordionPage () {
-  return (
-    <>
-      <PageHeader title='Accordion' description='Acordeones colapsables con animaciones suaves.' />
+export function AccordionPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
 
-      <Alert variant='info' title='Dependencia requerida' className='mb-6'>
-        Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para el icono de flecha.
-        Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
-      </Alert>
+  const importStatement = isNpm
+    ? `import { Accordion } from 'leira-ui'`
+    : `import { Accordion } from './components/ui/Accordion'`
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={accordionCode} title='Accordion.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
+  const basicCode = `${importStatement}
 
-      <Section title='Básico'>
-        <CodePreview code={`const items = [
+const items = [
   { id: '1', title: '¿Qué es React?', content: 'React es una biblioteca...' },
   { id: '2', title: '¿Qué es Tailwind?', content: 'Tailwind CSS es...' },
 ]
 
-<Accordion items={items} />`}
-        >
+<Accordion items={items} />`
+
+  const multipleCode = `${importStatement}
+
+<Accordion items={items} allowMultiple />`
+
+  const iconsCode = `${importStatement}
+import { Zap, Shield, Rocket } from 'lucide-react'
+
+const iconItems = [
+  { id: '1', title: 'Rendimiento', icon: <Zap />, content: '...' },
+]
+
+<Accordion items={iconItems} />`
+
+  return (
+    <>
+      <PageHeader title='Accordion' description='Acordeones colapsables con animaciones suaves.' />
+
+      {!isNpm && (
+        <Alert variant='info' title='Dependencia requerida' className='mb-6'>
+          Este componente requiere <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>lucide-react</code> para el icono de flecha.
+          Instala con: <code className='px-1.5 py-0.5 rounded bg-blue-500/20'>npm install lucide-react</code>
+        </Alert>
+      )}
+
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={accordionCode} title='Accordion.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
+
+      <Section title='Básico'>
+        <CodePreview code={basicCode}>
           <div className='w-full max-w-lg'><Accordion items={items} /></div>
         </CodePreview>
       </Section>
 
       <Section title='Múltiple'>
-        <CodePreview code='<Accordion items={items} allowMultiple />'>
+        <CodePreview code={multipleCode}>
           <div className='w-full max-w-lg'><Accordion items={items} allowMultiple /></div>
         </CodePreview>
       </Section>
 
       <Section title='Con Iconos'>
-        <CodePreview code='<Accordion items={iconItems} />'>
+        <CodePreview code={iconsCode}>
           <div className='w-full max-w-lg'><Accordion items={iconItems} /></div>
         </CodePreview>
       </Section>

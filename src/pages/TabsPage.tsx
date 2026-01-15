@@ -2,6 +2,7 @@ import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Tabs } from '../components/ui/Tabs'
 import { Home, Settings, User } from 'lucide-react'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const tabsCode = `import { useState, type ReactNode } from 'react'
 
@@ -104,37 +105,63 @@ const iconTabs = [
   { id: 'settings', label: 'Ajustes', icon: <Settings className='w-4 h-4' />, content: <p className='text-[var(--text-secondary)]'>Configuración.</p> }
 ]
 
-export function TabsPage () {
+export function TabsPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
+
+  const importStatement = isNpm
+    ? `import { Tabs } from 'leira-ui'`
+    : `import { Tabs } from './components/ui/Tabs'`
+
+  const underlineCode = `${importStatement}
+
+const tabs = [
+  { id: '1', label: 'General', content: <p>Contenido...</p> },
+  { id: '2', label: 'Perfil', content: <p>Contenido...</p> },
+]
+
+<Tabs items={tabs} variant="underline" />`
+
+  const pillsCode = `${importStatement}
+
+<Tabs items={tabs} variant="pills" />`
+
+  const iconsCode = `${importStatement}
+import { Home, User, Settings } from 'lucide-react'
+
+const iconTabs = [
+  { id: 'home', label: 'Inicio', icon: <Home className="w-4 h-4" />, content: ... },
+  { id: 'profile', label: 'Perfil', icon: <User className="w-4 h-4" />, content: ... },
+]
+
+<Tabs items={iconTabs} variant="pills" />`
+
   return (
     <>
       <PageHeader title='Tabs' description='Pestañas con diferentes estilos visuales y soporte para iconos.' />
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={tabsCode} title='Tabs.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={tabsCode} title='Tabs.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Underline (Default)'>
-        <CodePreview code='<Tabs items={items} variant="underline" />'>
+        <CodePreview code={underlineCode}>
           <div className='w-full'><Tabs items={tabs} variant='underline' /></div>
         </CodePreview>
       </Section>
 
       <Section title='Pills'>
-        <CodePreview code='<Tabs items={items} variant="pills" />'>
+        <CodePreview code={pillsCode}>
           <div className='w-full'><Tabs items={tabs} variant='pills' /></div>
         </CodePreview>
       </Section>
 
       <Section title='Con Iconos'>
-        <CodePreview code={`const iconTabs = [
-  { id: 'home', label: 'Inicio', icon: <Home className="w-4 h-4" />, content: ... },
-  { id: 'profile', label: 'Perfil', icon: <User className="w-4 h-4" />, content: ... },
-]
-
-<Tabs items={iconTabs} variant="pills" />`}
-        >
+        <CodePreview code={iconsCode}>
           <div className='w-full'><Tabs items={iconTabs} variant='pills' /></div>
         </CodePreview>
       </Section>

@@ -14,7 +14,8 @@ import {
   ChevronDown,
   MessageCircle,
   Loader,
-  GalleryHorizontal
+  GalleryHorizontal,
+  LayoutTemplate
 } from 'lucide-react'
 
 interface NavItem {
@@ -35,10 +36,12 @@ const navItems: NavItem[] = [
   { to: '/accordion', label: 'Accordion', icon: ChevronDown },
   { to: '/tooltips', label: 'Tooltips', icon: MessageCircle },
   { to: '/spinners', label: 'Spinners', icon: Loader },
-  { to: '/carousel', label: 'Carousel', icon: GalleryHorizontal }
+  { to: '/carousel', label: 'Carousel', icon: GalleryHorizontal },
+  { to: '/menu', label: 'Menu', icon: Menu },
+  { to: '/footer', label: 'Footer', icon: LayoutTemplate }
 ]
 
-export function Sidebar () {
+export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (

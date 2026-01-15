@@ -1,6 +1,7 @@
 import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Badge } from '../components/ui/Badge'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const badgeCode = `import { type ReactNode } from 'react'
 
@@ -63,27 +64,50 @@ const badgeProps = [
   { name: 'dot', type: 'boolean', default: 'false', description: 'Muestra un punto indicador' }
 ]
 
-export function BadgesPage () {
-  return (
-    <>
-      <PageHeader title='Badge' description='Etiquetas y badges con múltiples variantes, tamaños y estilos.' />
+export function BadgesPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={badgeCode} title='Badge.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
+  const importStatement = isNpm
+    ? `import { Badge } from 'leira-ui'`
+    : `import { Badge } from './components/ui/Badge'`
 
-      <Section title='Variantes'>
-        <CodePreview
-          code={`<Badge variant="default">Default</Badge>
+  const variantsCode = `${importStatement}
+
+<Badge variant="default">Default</Badge>
 <Badge variant="primary">Primary</Badge>
 <Badge variant="secondary">Secondary</Badge>
 <Badge variant="success">Success</Badge>
 <Badge variant="warning">Warning</Badge>
 <Badge variant="error">Error</Badge>
-<Badge variant="outline">Outline</Badge>`} title='Todas las variantes'
-        >
+<Badge variant="outline">Outline</Badge>`
+
+  const sizesCode = `${importStatement}
+
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>`
+
+  const dotCode = `${importStatement}
+
+<Badge dot variant="success">Online</Badge>
+<Badge dot variant="warning">Away</Badge>
+<Badge dot variant="error">Offline</Badge>`
+
+  return (
+    <>
+      <PageHeader title='Badge' description='Etiquetas y badges con múltiples variantes, tamaños y estilos.' />
+
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={badgeCode} title='Badge.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
+
+      <Section title='Variantes'>
+        <CodePreview code={variantsCode} title='Todas las variantes'>
           <Badge variant='default'>Default</Badge>
           <Badge variant='primary'>Primary</Badge>
           <Badge variant='secondary'>Secondary</Badge>
@@ -95,7 +119,7 @@ export function BadgesPage () {
       </Section>
 
       <Section title='Tamaños'>
-        <CodePreview code='<Badge size="sm">Small</Badge>\n<Badge size="md">Medium</Badge>\n<Badge size="lg">Large</Badge>'>
+        <CodePreview code={sizesCode}>
           <Badge size='sm' variant='primary'>Small</Badge>
           <Badge size='md' variant='primary'>Medium</Badge>
           <Badge size='lg' variant='primary'>Large</Badge>
@@ -103,7 +127,7 @@ export function BadgesPage () {
       </Section>
 
       <Section title='Con Indicador'>
-        <CodePreview code='<Badge dot variant="success">Online</Badge>'>
+        <CodePreview code={dotCode}>
           <Badge dot variant='success'>Online</Badge>
           <Badge dot variant='warning'>Away</Badge>
           <Badge dot variant='error'>Offline</Badge>

@@ -44,35 +44,29 @@
 
 ## 📦 Instalación
 
-### Opción 1: Paquete NPM (Recomendado)
-
 ```bash
-npm install leira-ui
+npm install leira-ui lucide-react
 ```
 
 ```bash
-pnpm add leira-ui
+pnpm add leira-ui lucide-react
 ```
 
 ```bash
-yarn add leira-ui
+yarn add leira-ui lucide-react
 ```
-
-### Opción 2: Copiar y Pegar
-
-Visita la [documentación](https://leira-ui.vercel.app) y copia el código de cada componente directamente a tu proyecto.
 
 ---
 
 ## ⚡ Inicio Rápido
 
-### 1. Instala las dependencias
+### 1. Importa los estilos en tu archivo principal (main.tsx o App.tsx)
 
-```bash
-npm install leira-ui lucide-react
+```tsx
+import 'leira-ui/styles.css'
 ```
 
-### 2. Importa y usa los componentes
+### 2. Usa los componentes
 
 ```tsx
 import { Button, Card, CardBody, Input, Alert } from 'leira-ui'
@@ -94,20 +88,55 @@ function App() {
 
 ## 🧩 Componentes Disponibles
 
-| Componente | Descripción | Requiere lucide-react |
-|------------|-------------|:---------------------:|
-| `Button` | Botones con variantes, tamaños y estados de carga | ❌ |
-| `Card` | Tarjetas con header, body, footer y hover effects | ❌ |
-| `Input` | Campos de entrada con validación e iconos | ❌ |
-| `Textarea` | Área de texto con validación | ❌ |
-| `Alert` | Alertas de notificación con variantes | ✅ |
-| `Modal` | Modales con animaciones | ✅ |
-| `Badge` | Etiquetas y badges con estilos | ❌ |
-| `Tabs` | Pestañas con estilos pill y underline | ❌ |
-| `Accordion` | Acordeones colapsables con animaciones | ✅ |
-| `Tooltip` | Tooltips con posicionamiento flexible | ❌ |
-| `Spinner` | Indicadores de carga y skeletons | ❌ |
-| `Carousel` | Carruseles de imágenes, cards y testimonios | ✅ |
+### Formularios
+| Componente | Descripción |
+|------------|-------------|
+| `Button` | Botones con variantes, tamaños y estados de carga |
+| `Input` | Campos de entrada con validación e iconos |
+| `Textarea` | Área de texto con validación |
+
+### Layout
+| Componente | Descripción |
+|------------|-------------|
+| `Card` | Tarjetas con header, body, footer y hover effects |
+| `ImageCard` | Cards con imagen destacada |
+
+### Navegación
+| Componente | Descripción |
+|------------|-------------|
+| `Navbar` | Barra de navegación responsive con dropdowns |
+| `Sidebar` | Menú lateral colapsable |
+| `DropdownMenu` | Menú desplegable |
+| `Breadcrumb` | Navegación de migas de pan |
+| `Tabs` | Pestañas con estilos pill y underline |
+
+### Feedback
+| Componente | Descripción |
+|------------|-------------|
+| `Alert` | Alertas de notificación con variantes |
+| `Modal` | Modales con animaciones |
+| `Tooltip` | Tooltips con posicionamiento flexible |
+| `Spinner` | Indicadores de carga |
+| `Skeleton` | Placeholders de carga |
+
+### Secciones
+| Componente | Descripción |
+|------------|-------------|
+| `SimpleFooter` | Footer minimalista |
+| `MultiColumnFooter` | Footer con múltiples columnas |
+| `CenteredFooter` | Footer centrado |
+| `NewsletterFooter` | Footer con suscripción |
+
+### Data Display
+| Componente | Descripción |
+|------------|-------------|
+| `Badge` | Etiquetas y badges con estilos |
+| `Accordion` | Acordeones colapsables con animaciones |
+| `Carousel` | Carrusel básico |
+| `ImageCarousel` | Carrusel de imágenes |
+| `CardCarousel` | Carrusel de cards |
+| `CoverflowCarousel` | Carrusel 3D con perspectiva |
+| `TestimonialCarousel` | Carrusel de testimonios |
 
 ---
 
@@ -117,17 +146,11 @@ Visita nuestra documentación completa con ejemplos interactivos:
 
 🔗 **[leira-ui.vercel.app](https://leira-ui.vercel.app)**
 
-En la documentación encontrarás:
-- ✅ Ejemplos interactivos de cada componente
-- ✅ Código completo para copiar
-- ✅ Guía de instalación paso a paso
-- ✅ Props y variantes de cada componente
-
 ---
 
 ## 🎨 Personalización
 
-Los componentes usan variables CSS que puedes personalizar en tu proyecto:
+Los componentes usan variables CSS que puedes personalizar:
 
 ```css
 :root {
@@ -157,44 +180,9 @@ pnpm install
 # Iniciar servidor de desarrollo
 pnpm dev
 
-# Build documentación (Vercel)
-pnpm build
-
 # Build paquete NPM
 pnpm build:lib
 ```
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-leira-ui/
-├── src/
-│   ├── components/
-│   │   ├── ui/              # 📦 Componentes (NPM)
-│   │   │   ├── Button.tsx
-│   │   │   ├── Card.tsx
-│   │   │   ├── Input.tsx
-│   │   │   └── ...
-│   │   └── docs/            # 🌐 Solo documentación
-│   └── pages/               # 🌐 Páginas de docs
-├── dist/                    # Build Vercel
-├── dist-lib/                # Build NPM
-└── package.json
-```
-
----
-
-## 🤝 Contribuir
-
-¡Las contribuciones son bienvenidas! Si tienes ideas para nuevos componentes o mejoras:
-
-1. Haz fork del repositorio
-2. Crea una rama (`git checkout -b feature/nuevo-componente`)
-3. Haz commit de tus cambios (`git commit -m 'Agregar nuevo componente'`)
-4. Push a la rama (`git push origin feature/nuevo-componente`)
-5. Abre un Pull Request
 
 ---
 

@@ -1,6 +1,7 @@
 import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Spinner, Skeleton } from '../components/ui/Spinner'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const spinnerCode = `type SpinnerSize = 'sm' | 'md' | 'lg' | 'xl'
 type SpinnerVariant = 'default' | 'primary' | 'dots' | 'pulse'
@@ -89,34 +90,60 @@ const skeletonProps = [
   { name: 'rounded', type: "'none' | 'sm' | 'md' | 'lg' | 'full'", default: "'md'", description: 'Bordes redondeados' }
 ]
 
-export function SpinnersPage () {
+export function SpinnersPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
+
+  const importStatement = isNpm
+    ? `import { Spinner, Skeleton } from 'leira-ui'`
+    : `import { Spinner, Skeleton } from './components/ui/Spinner'`
+
+  const sizesCode = `${importStatement}
+
+<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />
+<Spinner size="xl" />`
+
+  const variantsCode = `${importStatement}
+
+<Spinner variant="default" />
+<Spinner variant="primary" />
+<Spinner variant="dots" />
+<Spinner variant="pulse" />`
+
+  const skeletonCode = `${importStatement}
+
+<Skeleton width="100%" height="2.5rem" rounded="lg" />
+<Skeleton width="70%" height="1rem" />
+<Skeleton width="3rem" height="3rem" rounded="full" />`
+
   return (
     <>
       <PageHeader title='Spinner' description='Indicadores de carga y skeletons para estados de loading.' />
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={spinnerCode} title='Spinner.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
-        </CodePreview>
-      </Section>
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={spinnerCode} title='Spinner.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>Haz clic en &quot;Ver código&quot; para ver el componente completo.</div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Tamaños'>
-        <CodePreview code='<Spinner size="sm" />\n<Spinner size="md" />\n<Spinner size="lg" />\n<Spinner size="xl" />'>
+        <CodePreview code={sizesCode}>
           <Spinner size='sm' /><Spinner size='md' /><Spinner size='lg' /><Spinner size='xl' />
         </CodePreview>
       </Section>
 
       <Section title='Variantes'>
-        <CodePreview code='<Spinner variant="default" />\n<Spinner variant="primary" />\n<Spinner variant="dots" />\n<Spinner variant="pulse" />'>
+        <CodePreview code={variantsCode}>
           <Spinner variant='default' /><Spinner variant='primary' /><Spinner variant='dots' /><Spinner variant='pulse' />
         </CodePreview>
       </Section>
 
       <Section title='Skeleton'>
-        <CodePreview code={`<Skeleton width="100%" height="2.5rem" rounded="lg" />
-<Skeleton width="70%" height="1rem" />
-<Skeleton width="3rem" height="3rem" rounded="full" />`}
-        >
+        <CodePreview code={skeletonCode}>
           <div className='w-full max-w-sm space-y-3'>
             <Skeleton width='100%' height='2.5rem' rounded='lg' />
             <Skeleton width='70%' height='1rem' />

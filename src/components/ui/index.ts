@@ -20,10 +20,14 @@ export { Tooltip } from './Tooltip'
 // Navigation Components
 export { Tabs } from './Tabs'
 export { Accordion } from './Accordion'
+export { Navbar, DropdownMenu, Sidebar, Breadcrumb } from './Menu'
+
+// Layout Sections
+export { SimpleFooter, MultiColumnFooter, CenteredFooter, NewsletterFooter } from './Footer'
 
 // Data Display Components
 export { Badge } from './Badge'
-export { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel } from './Carousel'
+export { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel, CoverflowCarousel } from './Carousel'
 
 // Re-export types
 export type { ButtonHTMLAttributes, InputHTMLAttributes, TextareaHTMLAttributes } from 'react'

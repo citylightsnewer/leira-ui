@@ -16,7 +16,7 @@ interface CarouselProps {
   className?: string
 }
 
-export function Carousel ({
+export function Carousel({
   items,
   autoPlay = false,
   interval = 5000,
@@ -75,17 +75,17 @@ export function Carousel ({
       >
         {variant === 'slide'
           ? (
-              items.map((item) => (
-                <div key={item.id} className='w-full flex-shrink-0'>
-                  {item.content}
-                </div>
-              ))
-            )
+            items.map((item) => (
+              <div key={item.id} className='w-full flex-shrink-0'>
+                {item.content}
+              </div>
+            ))
+          )
           : (
             <div className={`w-full ${getSlideStyles()}`}>
               {items[currentIndex]?.content}
             </div>
-            )}
+          )}
       </div>
 
       {/* Arrows */}
@@ -116,8 +116,8 @@ export function Carousel ({
               key={index}
               onClick={() => goToIndex(index)}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentIndex
-                  ? 'bg-white w-6'
-                  : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-white w-6'
+                : 'bg-white/50 hover:bg-white/75'
                 }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -146,7 +146,7 @@ const aspectRatioStyles = {
   wide: 'aspect-[21/9]'
 }
 
-export function ImageCarousel ({
+export function ImageCarousel({
   images,
   autoPlay = true,
   interval = 4000,
@@ -196,7 +196,7 @@ interface CardCarouselProps {
   className?: string
 }
 
-export function CardCarousel ({
+export function CardCarousel({
   children,
   visibleCards = 3,
   gap = 16,
@@ -274,7 +274,7 @@ interface TestimonialCarouselProps {
   className?: string
 }
 
-export function TestimonialCarousel ({
+export function TestimonialCarousel({
   testimonials,
   autoPlay = true,
   interval = 6000,
@@ -292,12 +292,12 @@ export function TestimonialCarousel ({
           {t.avatar
             ? (
               <img src={t.avatar} alt={t.author} className='w-12 h-12 rounded-full object-cover' />
-              )
+            )
             : (
               <div className='w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 font-semibold'>
                 {t.author.charAt(0)}
               </div>
-              )}
+            )}
           <div className='text-left'>
             <p className='font-semibold text-[var(--text-primary)]'>{t.author}</p>
             {t.role && <p className='text-sm text-[var(--text-muted)]'>{t.role}</p>}
@@ -317,5 +317,146 @@ export function TestimonialCarousel ({
       variant='fade'
       className={`bg-[var(--bg-card)] border border-[var(--border-color)] ${className}`}
     />
+  )
+}
+
+// Coverflow Carousel - 3D perspective with visible side images
+interface CoverflowCarouselProps {
+  images: Array<{ src: string; alt: string; caption?: string }>
+  autoPlay?: boolean
+  interval?: number
+  className?: string
+}
+
+export function CoverflowCarousel({
+  images,
+  autoPlay = false,
+  interval = 4000,
+  className = ''
+}: CoverflowCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const goToIndex = (index: number) => {
+    setCurrentIndex(index)
+  }
+
+  const goToPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+  }, [images.length])
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % images.length)
+  }, [images.length])
+
+  useEffect(() => {
+    if (!autoPlay) return
+    const timer = setInterval(goToNext, interval)
+    return () => clearInterval(timer)
+  }, [autoPlay, interval, goToNext])
+
+  const getItemStyle = (index: number) => {
+    const diff = index - currentIndex
+
+    // Center item
+    if (diff === 0) {
+      return {
+        transform: 'translateX(-50%) scale(1) rotateY(0deg)',
+        zIndex: 30,
+        opacity: 1,
+        left: '50%'
+      }
+    }
+
+    // Left items
+    if (diff < 0 || diff > images.length / 2) {
+      const actualDiff = diff < 0 ? diff : diff - images.length
+      const position = Math.max(-2, actualDiff)
+      return {
+        transform: `translateX(calc(-50% + ${position * 180}px)) scale(${0.7 - Math.abs(position) * 0.1}) rotateY(35deg)`,
+        zIndex: 20 - Math.abs(position),
+        opacity: Math.abs(position) <= 2 ? 0.7 - Math.abs(position) * 0.2 : 0,
+        left: '50%'
+      }
+    }
+
+    // Right items
+    const position = Math.min(2, diff)
+    return {
+      transform: `translateX(calc(-50% + ${position * 180}px)) scale(${0.7 - Math.abs(position) * 0.1}) rotateY(-35deg)`,
+      zIndex: 20 - Math.abs(position),
+      opacity: Math.abs(position) <= 2 ? 0.7 - Math.abs(position) * 0.2 : 0,
+      left: '50%'
+    }
+  }
+
+  return (
+    <div className={`relative ${className}`} style={{ perspective: '1000px' }}>
+      {/* Carousel Container */}
+      <div className='relative h-80 md:h-96'>
+        {images.map((image, index) => {
+          const style = getItemStyle(index)
+          const isVisible = style.opacity > 0
+
+          return isVisible ? (
+            <button
+              key={index}
+              onClick={() => goToIndex(index)}
+              className='absolute top-0 w-64 md:w-80 h-full rounded-xl overflow-hidden shadow-2xl transition-all duration-500 ease-out cursor-pointer focus:outline-none'
+              style={{
+                ...style,
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className='w-full h-full object-cover'
+              />
+              {/* Caption for center item */}
+              {index === currentIndex && image.caption && (
+                <div className='absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent'>
+                  <p className='text-white text-sm font-medium'>{image.caption}</p>
+                </div>
+              )}
+              {/* Overlay for side items */}
+              {index !== currentIndex && (
+                <div className='absolute inset-0 bg-black/30' />
+              )}
+            </button>
+          ) : null
+        })}
+      </div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={goToPrev}
+        className='absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-violet-500/20 hover:border-violet-500/50 transition-all shadow-lg z-40'
+        aria-label='Previous'
+      >
+        <ChevronLeft className='w-5 h-5' />
+      </button>
+      <button
+        onClick={goToNext}
+        className='absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-violet-500/20 hover:border-violet-500/50 transition-all shadow-lg z-40'
+        aria-label='Next'
+      >
+        <ChevronRight className='w-5 h-5' />
+      </button>
+
+      {/* Dots */}
+      <div className='flex justify-center gap-2 mt-6'>
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToIndex(index)}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentIndex
+              ? 'bg-violet-500 w-6'
+              : 'bg-[var(--text-muted)] hover:bg-[var(--text-secondary)]'
+              }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

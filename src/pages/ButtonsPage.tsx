@@ -2,6 +2,7 @@ import { PageHeader, Section } from '../components/docs/Layout'
 import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Button } from '../components/ui/Button'
 import { ArrowRight, Download, Heart, Send } from 'lucide-react'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 const buttonCode = `import { type ButtonHTMLAttributes, type ReactNode } from 'react'
 
@@ -71,30 +72,6 @@ export function Button ({
   )
 }`
 
-const usageCode = `import { Button } from './components/ui/Button'
-import { Send, ArrowRight } from 'lucide-react'
-
-// Variantes
-<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="danger">Danger</Button>
-<Button variant="success">Success</Button>
-
-// Tamaños
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-
-// Con iconos
-<Button icon={<Send className="w-4 h-4" />}>Enviar</Button>
-<Button icon={<ArrowRight className="w-4 h-4" />} iconPosition="right">Continuar</Button>
-
-// Estados
-<Button loading>Cargando</Button>
-<Button disabled>Deshabilitado</Button>`
-
 const buttonProps = [
   { name: 'variant', type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success'", default: "'primary'", description: 'Estilo visual del botón' },
   { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Tamaño del botón' },
@@ -104,7 +81,40 @@ const buttonProps = [
   { name: 'disabled', type: 'boolean', default: 'false', description: 'Deshabilita el botón' }
 ]
 
-export function ButtonsPage () {
+export function ButtonsPage() {
+  const { installMethod } = useInstallMethod()
+  const isNpm = installMethod === 'npm'
+
+  const importStatement = isNpm
+    ? `import { Button } from 'leira-ui'`
+    : `import { Button } from './components/ui/Button'`
+
+  const variantsCode = `${importStatement}
+
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="danger">Danger</Button>
+<Button variant="success">Success</Button>`
+
+  const sizesCode = `${importStatement}
+
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`
+
+  const iconsCode = `${importStatement}
+import { Send, ArrowRight } from 'lucide-react'
+
+<Button icon={<Send className="w-4 h-4" />}>Enviar</Button>
+<Button icon={<ArrowRight className="w-4 h-4" />} iconPosition="right">Continuar</Button>`
+
+  const statesCode = `${importStatement}
+
+<Button loading>Cargando</Button>
+<Button disabled>Deshabilitado</Button>`
+
   return (
     <>
       <PageHeader
@@ -112,16 +122,19 @@ export function ButtonsPage () {
         description='Botones con múltiples variantes, tamaños, estados de carga e iconos.'
       />
 
-      <Section title='Código Completo del Componente'>
-        <CodePreview code={buttonCode} title='Button.tsx - Copia este archivo completo'>
-          <div className='text-sm text-[var(--text-secondary)]'>
-            Haz clic en &quot;Ver código&quot; para ver el componente completo y copiarlo.
-          </div>
-        </CodePreview>
-      </Section>
+      {/* Full code - only show for copy/paste method */}
+      {!isNpm && (
+        <Section title='Código Completo del Componente'>
+          <CodePreview code={buttonCode} title='Button.tsx - Copia este archivo completo'>
+            <div className='text-sm text-[var(--text-secondary)]'>
+              Haz clic en &quot;Ver código&quot; para ver el componente completo y copiarlo.
+            </div>
+          </CodePreview>
+        </Section>
+      )}
 
       <Section title='Variantes'>
-        <CodePreview code={usageCode} title='Ejemplos de uso'>
+        <CodePreview code={variantsCode} title='Ejemplos de uso'>
           <Button variant='primary'>Primary</Button>
           <Button variant='secondary'>Secondary</Button>
           <Button variant='outline'>Outline</Button>
@@ -132,7 +145,7 @@ export function ButtonsPage () {
       </Section>
 
       <Section title='Tamaños'>
-        <CodePreview code='<Button size="sm">Small</Button>\n<Button size="md">Medium</Button>\n<Button size="lg">Large</Button>'>
+        <CodePreview code={sizesCode}>
           <Button size='sm'>Small</Button>
           <Button size='md'>Medium</Button>
           <Button size='lg'>Large</Button>
@@ -140,7 +153,7 @@ export function ButtonsPage () {
       </Section>
 
       <Section title='Con Iconos'>
-        <CodePreview code='<Button icon={<Send className="w-4 h-4" />}>Enviar</Button>\n<Button icon={<ArrowRight className="w-4 h-4" />} iconPosition="right">Continuar</Button>'>
+        <CodePreview code={iconsCode}>
           <Button icon={<Send className='w-4 h-4' />}>Enviar</Button>
           <Button icon={<ArrowRight className='w-4 h-4' />} iconPosition='right'>Continuar</Button>
           <Button variant='secondary' icon={<Download className='w-4 h-4' />}>Descargar</Button>
@@ -149,7 +162,7 @@ export function ButtonsPage () {
       </Section>
 
       <Section title='Estados'>
-        <CodePreview code='<Button loading>Cargando</Button>\n<Button disabled>Deshabilitado</Button>'>
+        <CodePreview code={statesCode}>
           <Button loading>Cargando</Button>
           <Button disabled>Deshabilitado</Button>
           <Button variant='secondary' loading>Procesando</Button>

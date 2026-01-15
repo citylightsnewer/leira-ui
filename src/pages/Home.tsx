@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { PageHeader, Section } from '../components/docs/Layout'
 import { Card, CardBody } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
 import { CodePreview } from '../components/docs/CodePreview'
-import { Square, CreditCard, TextCursorInput, AlertCircle, Tag, Layers, PanelTop, ChevronDown, MessageCircle, Loader, GalleryHorizontal, Folder, FileCode, Package, Copy, Terminal, Paintbrush } from 'lucide-react'
+import { Square, CreditCard, TextCursorInput, AlertCircle, Tag, Layers, PanelTop, ChevronDown, MessageCircle, Loader, GalleryHorizontal, Folder, FileCode, Package, Copy, Paintbrush, Rocket, Menu, LayoutTemplate } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import { useInstallMethod } from '../context/InstallMethodContext'
 
 interface ComponentInfo {
   to: string
@@ -25,13 +25,13 @@ const components: ComponentInfo[] = [
   { to: '/accordion', label: 'Accordion', icon: ChevronDown, description: 'Acordeones colapsables con animaciones', dependency: 'lucide-react' },
   { to: '/tooltips', label: 'Tooltips', icon: MessageCircle, description: 'Tooltips con posicionamiento flexible' },
   { to: '/spinners', label: 'Spinners', icon: Loader, description: 'Indicadores de carga y skeletons' },
-  { to: '/carousel', label: 'Carousel', icon: GalleryHorizontal, description: 'Carruseles de imágenes, cards y testimonios', dependency: 'lucide-react' }
+  { to: '/carousel', label: 'Carousel', icon: GalleryHorizontal, description: 'Carruseles de imágenes, cards y testimonios', dependency: 'lucide-react' },
+  { to: '/menu', label: 'Menu', icon: Menu, description: 'Navbar, Dropdown, Sidebar y Breadcrumb', dependency: 'lucide-react' },
+  { to: '/footer', label: 'Footer', icon: LayoutTemplate, description: 'Footers con múltiples layouts y newsletter' }
 ]
 
-type InstallMethod = 'npm' | 'manual'
-
 export function HomePage() {
-  const [installMethod, setInstallMethod] = useState<InstallMethod>('npm')
+  const { installMethod, setInstallMethod } = useInstallMethod()
 
   return (
     <>
@@ -60,107 +60,11 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Crear Proyecto Desde Cero */}
-      <Section title='Crear Proyecto Nuevo'>
-        <Card className='mb-8'>
-          <CardBody>
-            <div className='text-center mb-6'>
-              <div className='inline-flex p-4 rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 mb-4'>
-                <Terminal className='w-12 h-12 text-blue-400' />
-              </div>
-              <h3 className='text-xl font-bold text-[var(--text-primary)] mb-2'>Configuración desde Cero</h3>
-              <p className='text-[var(--text-secondary)]'>Crea un proyecto nuevo con Vite + React + TypeScript + Tailwind CSS 4</p>
-            </div>
-
-            {/* Step 1: Create Vite project */}
-            <div className='flex gap-4 mb-6'>
-              <span className='flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold'>1</span>
-              <div className='flex-1'>
-                <p className='font-medium text-[var(--text-primary)] mb-3'>Crea un nuevo proyecto con Vite</p>
-                <CodePreview
-                  code={`npm create vite@latest mi-proyecto -- --template react-ts
-cd mi-proyecto`}
-                  title='Terminal'
-                >
-                  <span className='text-sm text-[var(--text-muted)]'>Esto crea un proyecto React con TypeScript</span>
-                </CodePreview>
-              </div>
-            </div>
-
-            {/* Step 2: Install Tailwind CSS 4 */}
-            <div className='flex gap-4 mb-6'>
-              <span className='flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold'>2</span>
-              <div className='flex-1'>
-                <p className='font-medium text-[var(--text-primary)] mb-3'>Instala Tailwind CSS 4 y el plugin de Vite</p>
-                <CodePreview
-                  code='npm install tailwindcss @tailwindcss/vite'
-                  title='Terminal'
-                >
-                  <span className='text-sm text-[var(--text-muted)]'>Tailwind CSS 4 con integración nativa para Vite</span>
-                </CodePreview>
-              </div>
-            </div>
-
-            {/* Step 3: Configure Vite */}
-            <div className='flex gap-4 mb-6'>
-              <span className='flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold'>3</span>
-              <div className='flex-1'>
-                <p className='font-medium text-[var(--text-primary)] mb-3'>Configura el plugin en vite.config.ts</p>
-                <CodePreview
-                  code={`import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss()
-  ]
-})`}
-                  title='vite.config.ts'
-                >
-                  <span className='text-sm text-[var(--text-muted)]'>Agrega el plugin de Tailwind CSS</span>
-                </CodePreview>
-              </div>
-            </div>
-
-            {/* Step 4: Update CSS */}
-            <div className='flex gap-4 mb-6'>
-              <span className='flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold'>4</span>
-              <div className='flex-1'>
-                <p className='font-medium text-[var(--text-primary)] mb-3'>Actualiza tu archivo CSS principal</p>
-                <CodePreview
-                  code={`@import "tailwindcss";`}
-                  title='src/index.css'
-                >
-                  <span className='text-sm text-[var(--text-muted)]'>En Tailwind 4 solo necesitas esta línea</span>
-                </CodePreview>
-              </div>
-            </div>
-
-            {/* Step 5: Run dev server */}
-            <div className='flex gap-4'>
-              <span className='flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold'>5</span>
-              <div className='flex-1'>
-                <p className='font-medium text-[var(--text-primary)] mb-3'>¡Inicia el servidor de desarrollo!</p>
-                <CodePreview
-                  code='npm run dev'
-                  title='Terminal'
-                >
-                  <span className='text-sm text-[var(--text-muted)]'>Tu proyecto está listo en http://localhost:5173</span>
-                </CodePreview>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      </Section>
-
-      {/* Installation Guide */}
-      <Section title='Instalar Leira UI'>
+      {/* Guía de Inicio */}
+      <Section title='Guía de Inicio'>
         {/* Toggle Switch */}
         <div className='flex justify-center mb-8'>
           <div className='relative inline-flex bg-[var(--bg-secondary)] rounded-xl p-1 border border-[var(--border-color)]'>
-            {/* Animated background */}
             <div
               className={`
                 absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg
@@ -198,7 +102,7 @@ export default defineConfig({
 
         {/* Content with animation */}
         <div className='relative overflow-hidden'>
-          {/* NPM Package Method */}
+          {/* NPM Package Method - Complete Guide */}
           <div
             className={`
               transition-all duration-500 ease-out
@@ -209,30 +113,68 @@ export default defineConfig({
           >
             <Card>
               <CardBody>
-                <div className='text-center mb-6'>
+                <div className='text-center mb-8'>
                   <div className='inline-flex p-4 rounded-2xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 mb-4'>
-                    <Package className='w-12 h-12 text-violet-400' />
+                    <Rocket className='w-12 h-12 text-violet-400' />
                   </div>
-                  <h3 className='text-xl font-bold text-[var(--text-primary)] mb-2'>Instalación con NPM</h3>
-                  <p className='text-[var(--text-secondary)]'>La forma más rápida y sencilla de empezar</p>
+                  <h3 className='text-xl font-bold text-[var(--text-primary)] mb-2'>Guía Completa de Instalación</h3>
+                  <p className='text-[var(--text-secondary)]'>Desde crear el proyecto hasta usar los componentes</p>
                 </div>
 
-                {/* Step 1 */}
+                {/* Step 1: Create project */}
                 <div className='flex gap-4 mb-6'>
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>1</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Instala el paquete Leira UI</p>
-                    <CodePreview code='npm install leira-ui lucide-react' title='Terminal'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Crea un nuevo proyecto con Vite + React + TypeScript</p>
+                    <CodePreview
+                      code={`npm create vite@latest mi-proyecto -- --template react-ts
+cd mi-proyecto`}
+                      title='Terminal'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Esto crea un proyecto React con TypeScript</span>
+                    </CodePreview>
+                  </div>
+                </div>
+
+                {/* Step 2: Install dependencies */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>2</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Instala Tailwind CSS 4 y Leira UI</p>
+                    <CodePreview
+                      code='npm install tailwindcss @tailwindcss/vite leira-ui lucide-react'
+                      title='Terminal'
+                    >
                       <span className='text-sm text-[var(--text-muted)]'>lucide-react es opcional, solo si usas componentes con iconos</span>
                     </CodePreview>
                   </div>
                 </div>
 
-                {/* Step 2 */}
+                {/* Step 3: Configure Vite */}
                 <div className='flex gap-4 mb-6'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>2</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>3</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los estilos en tu archivo CSS</p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Configura Vite con el plugin de Tailwind</p>
+                    <CodePreview
+                      code={`import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()]
+})`}
+                      title='vite.config.ts'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Agrega el plugin de Tailwind CSS</span>
+                    </CodePreview>
+                  </div>
+                </div>
+
+                {/* Step 4: Configure CSS */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>4</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Configura los estilos en tu archivo CSS</p>
                     <CodePreview
                       code={`@import "tailwindcss";
 
@@ -240,19 +182,28 @@ export default defineConfig({
 @source "../node_modules/leira-ui";`}
                       title='src/index.css'
                     >
-                      <span className='text-sm text-[var(--text-muted)]'>Agrega @source para que Tailwind incluya los estilos de la librería</span>
+                      <span className='text-sm text-[var(--text-muted)]'>@source permite que Tailwind incluya los estilos de la librería</span>
                     </CodePreview>
                   </div>
                 </div>
 
-                {/* Step 3 */}
+                {/* Step 5: Import theme */}
                 <div className='flex gap-4 mb-6'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>3</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>5</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los estilos del tema (opcional)</p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa los estilos del tema</p>
                     <CodePreview
-                      code={`// En main.tsx o App.tsx
-import 'leira-ui/styles.css'`}
+                      code={`import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import 'leira-ui/styles.css'  // 👈 Agrega esta línea
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)`}
                       title='main.tsx'
                     >
                       <span className='text-sm text-[var(--text-muted)]'>Esto importa las variables CSS y animaciones del tema oscuro</span>
@@ -260,39 +211,50 @@ import 'leira-ui/styles.css'`}
                   </div>
                 </div>
 
-                {/* Step 4 */}
+                {/* Step 6: Use components */}
                 <div className='flex gap-4 mb-6'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>4</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>6</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Usa los componentes</p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>¡Usa los componentes!</p>
                     <CodePreview
                       code={`import { Button, Card, CardBody, Input, Alert } from 'leira-ui'
 
 function App() {
   return (
-    <Card hover>
-      <CardBody>
-        <Input label="Email" placeholder="tu@email.com" />
-        <Button variant="primary">Enviar</Button>
-        <Alert variant="success">¡Operación exitosa!</Alert>
-      </CardBody>
-    </Card>
+    <div className="min-h-screen bg-[var(--bg-primary)] p-8">
+      <Card hover>
+        <CardBody>
+          <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
+            ¡Hola Leira UI!
+          </h1>
+          <Input label="Email" placeholder="tu@email.com" />
+          <Button variant="primary" className="mt-4">Enviar</Button>
+          <Alert variant="success" className="mt-4">
+            ¡Configuración exitosa!
+          </Alert>
+        </CardBody>
+      </Card>
+    </div>
   )
-}`} title='App.tsx'
+}`}
+                      title='App.tsx'
                     >
                       <span className='text-sm text-[var(--text-muted)]'>Importa directamente desde &apos;leira-ui&apos;</span>
                     </CodePreview>
                   </div>
                 </div>
 
-                {/* Step 5 */}
+                {/* Step 7: Run */}
                 <div className='flex gap-4'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center font-semibold'>5</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>7</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>¡Listo! Ya puedes usar los componentes</p>
-                    <p className='text-sm text-[var(--text-secondary)]'>
-                      Todos los componentes están listos para usar. Asegúrate de tener Tailwind CSS configurado en tu proyecto.
-                    </p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>¡Inicia el servidor de desarrollo!</p>
+                    <CodePreview
+                      code='npm run dev'
+                      title='Terminal'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Tu proyecto está listo en http://localhost:5173</span>
+                    </CodePreview>
                   </div>
                 </div>
               </CardBody>
@@ -310,7 +272,7 @@ function App() {
           >
             <Card>
               <CardBody>
-                <div className='text-center mb-6'>
+                <div className='text-center mb-8'>
                   <div className='inline-flex p-4 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 mb-4'>
                     <Copy className='w-12 h-12 text-emerald-400' />
                   </div>
@@ -318,15 +280,56 @@ function App() {
                   <p className='text-[var(--text-secondary)]'>Control total sobre el código de cada componente</p>
                 </div>
 
-                {/* Step 1: Create folder structure */}
+                {/* Step 1: Create project */}
                 <div className='flex gap-4 mb-6'>
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>1</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Crea la estructura de carpetas</p>
-                    <p className='text-sm text-[var(--text-secondary)] mb-4'>
-                      Dentro de <code className='px-1.5 py-0.5 rounded bg-[var(--bg-hover)]'>src</code>, crea <code className='px-1.5 py-0.5 rounded bg-[var(--bg-hover)]'>components/ui</code>:
-                    </p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Crea un nuevo proyecto con Vite + React + TypeScript</p>
+                    <CodePreview
+                      code={`npm create vite@latest mi-proyecto -- --template react-ts
+cd mi-proyecto
+npm install tailwindcss @tailwindcss/vite lucide-react`}
+                      title='Terminal'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>lucide-react es opcional, solo para componentes con iconos</span>
+                    </CodePreview>
+                  </div>
+                </div>
 
+                {/* Step 2: Configure Vite and CSS */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>2</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Configura Vite y tu CSS</p>
+                    <CodePreview
+                      code={`// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()]
+})`}
+                      title='vite.config.ts'
+                    >
+                      <span className='text-sm text-[var(--text-muted)]'>Agrega el plugin de Tailwind CSS</span>
+                    </CodePreview>
+                    <div className='mt-4'>
+                      <CodePreview
+                        code={`@import "tailwindcss";`}
+                        title='src/index.css'
+                      >
+                        <span className='text-sm text-[var(--text-muted)]'>En Tailwind 4 solo necesitas esta línea</span>
+                      </CodePreview>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 3: Create folder structure */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>3</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Crea la estructura de carpetas</p>
                     <div className='bg-[var(--bg-secondary)] rounded-lg p-4 font-mono text-sm border border-[var(--border-color)]'>
                       <div className='flex items-center gap-2 text-[var(--text-primary)]'>
                         <Folder className='w-4 h-4 text-amber-400' />
@@ -352,9 +355,6 @@ function App() {
                               <FileCode className='w-4 h-4 text-blue-400' />
                               <span>Card.tsx</span>
                             </div>
-                            <div className='flex items-center gap-2 text-[var(--text-muted)]'>
-                              <span className='ml-6'>...</span>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -362,60 +362,53 @@ function App() {
                   </div>
                 </div>
 
-                {/* Step 2: Install dependencies */}
-                <div className='flex gap-4 mb-6'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>2</span>
-                  <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Instala dependencias (si es necesario)</p>
-                    <p className='text-sm text-[var(--text-secondary)] mb-3'>
-                      Algunos componentes usan iconos de <Badge size='sm' variant='secondary'>lucide-react</Badge>
-                    </p>
-                    <CodePreview code='npm install lucide-react' title='Opcional'>
-                      <span className='text-sm text-[var(--text-muted)]'>Solo si el componente lo requiere</span>
-                    </CodePreview>
-                  </div>
-                </div>
-
-                {/* Step 3: Copy code */}
-                <div className='flex gap-4 mb-6'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>3</span>
-                  <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Copia el código del componente</p>
-                    <p className='text-sm text-[var(--text-secondary)] mb-3'>
-                      Ve a la página del componente, haz clic en <strong>&quot;Ver código&quot;</strong> y luego en <strong>&quot;Copiar código&quot;</strong>.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step 4: Create file and paste */}
+                {/* Step 4: Copy code */}
                 <div className='flex gap-4 mb-6'>
                   <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>4</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Crea el archivo y pega el código</p>
-                    <CodePreview
-                      code={`// src/components/ui/Button.tsx
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Copia el código de los componentes</p>
+                    <p className='text-sm text-[var(--text-secondary)] mb-3'>
+                      Ve a la página del componente, haz clic en <strong>&quot;Ver código&quot;</strong> y luego en <strong>&quot;Copiar código&quot;</strong>.
+                      Crea un archivo <code className='px-1.5 py-0.5 rounded bg-[var(--bg-hover)]'>.tsx</code> por cada componente.
+                    </p>
+                  </div>
+                </div>
 
-// Pega aquí el código que copiaste
-export function Button({ children, variant = 'primary', ...props }) {
-  // ... código del componente
-}`} title='Ejemplo'
+                {/* Step 5: Import and use */}
+                <div className='flex gap-4 mb-6'>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>5</span>
+                  <div className='flex-1'>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa y usa los componentes</p>
+                    <CodePreview
+                      code={`import { Button } from './components/ui/Button'
+import { Card, CardBody } from './components/ui/Card'
+
+function App() {
+  return (
+    <Card hover>
+      <CardBody>
+        <Button variant="primary">Haz clic</Button>
+      </CardBody>
+    </Card>
+  )
+}`}
+                      title='App.tsx'
                     >
-                      <span className='text-sm text-[var(--text-muted)]'>Crea un archivo .tsx por cada componente</span>
+                      <span className='text-sm text-[var(--text-muted)]'>Importa desde tu carpeta local</span>
                     </CodePreview>
                   </div>
                 </div>
 
-                {/* Step 5: Import */}
+                {/* Step 6: Run */}
                 <div className='flex gap-4'>
-                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>5</span>
+                  <span className='flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold'>6</span>
                   <div className='flex-1'>
-                    <p className='font-medium text-[var(--text-primary)] mb-3'>Importa y usa</p>
+                    <p className='font-medium text-[var(--text-primary)] mb-3'>¡Inicia el servidor!</p>
                     <CodePreview
-                      code={`import { Button } from './components/ui/Button'
-
-<Button variant="primary">Haz clic</Button>`} title='Uso'
+                      code='npm run dev'
+                      title='Terminal'
                     >
-                      <span className='text-sm text-[var(--text-muted)]'>Importa desde tu carpeta local</span>
+                      <span className='text-sm text-[var(--text-muted)]'>Tu proyecto está listo en http://localhost:5173</span>
                     </CodePreview>
                   </div>
                 </div>
@@ -435,7 +428,7 @@ export function Button({ children, variant = 'primary', ...props }) {
               </div>
               <div>
                 <h3 className='font-semibold text-[var(--text-primary)] mb-1'>Variables CSS Personalizables</h3>
-                <p className='text-sm text-[var(--text-secondary)]'>Agrega estas variables a tu CSS para personalizar los colores</p>
+                <p className='text-sm text-[var(--text-secondary)]'>Modifica estas variables en tu CSS para personalizar los colores</p>
               </div>
             </div>
             <CodePreview
@@ -451,7 +444,7 @@ export function Button({ children, variant = 'primary', ...props }) {
 }`}
               title='src/index.css'
             >
-              <span className='text-sm text-[var(--text-muted)]'>Modifica los colores según tu diseño</span>
+              <span className='text-sm text-[var(--text-muted)]'>Puedes cambiar a un tema claro modificando estos valores</span>
             </CodePreview>
           </CardBody>
         </Card>

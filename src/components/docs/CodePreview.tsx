@@ -9,7 +9,7 @@ interface CodePreviewProps {
   language?: string
 }
 
-export function CodePreview ({ children, code, title, language = 'tsx' }: CodePreviewProps) {
+export function CodePreview({ children, code, title, language = 'tsx' }: CodePreviewProps) {
   const [copied, setCopied] = useState(false)
   const [showCode, setShowCode] = useState(false)
 
@@ -20,7 +20,7 @@ export function CodePreview ({ children, code, title, language = 'tsx' }: CodePr
   }
 
   return (
-    <div className='rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] overflow-hidden'>
+    <div className='rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)]'>
       {/* Header */}
       {title && (
         <div className='px-4 py-3 border-b border-[var(--border-color)]'>
@@ -99,7 +99,7 @@ interface PropsTableProps {
   props: PropDefinition[]
 }
 
-export function PropsTable ({ props }: PropsTableProps) {
+export function PropsTable({ props }: PropsTableProps) {
   return (
     <div className='overflow-x-auto rounded-xl border border-[var(--border-color)]'>
       <table className='w-full text-sm'>
