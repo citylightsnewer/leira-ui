@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
-import { Github } from 'lucide-react'
+import { Github, Heart } from 'lucide-react'
 
 interface LayoutProps {
   children: ReactNode
 }
 
-export function Layout ({ children }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
     <div className='min-h-screen bg-[var(--bg-primary)]'>
       <Sidebar />
@@ -22,9 +22,18 @@ export function Layout ({ children }: LayoutProps) {
                 Leira UI - Componentes React + Tailwind CSS
               </h1>
             </div>
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-2'>
               <a
-                href='https://github.com'
+                href='https://ko-fi.com/leira_qc'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-medium hover:from-pink-400 hover:to-rose-400 transition-all shadow-lg shadow-pink-500/25'
+              >
+                <Heart className='w-4 h-4' />
+                <span className='hidden sm:inline'>Donar</span>
+              </a>
+              <a
+                href='https://github.com/citylightsnewer/leira-ui'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-colors'
@@ -50,7 +59,7 @@ interface PageHeaderProps {
   description: string
 }
 
-export function PageHeader ({ title, description }: PageHeaderProps) {
+export function PageHeader({ title, description }: PageHeaderProps) {
   return (
     <div className='mb-8'>
       <h1 className='text-3xl font-bold text-[var(--text-primary)] mb-2'>{title}</h1>
@@ -66,7 +75,7 @@ interface SectionProps {
   className?: string
 }
 
-export function Section ({ title, children, className = '' }: SectionProps) {
+export function Section({ title, children, className = '' }: SectionProps) {
   return (
     <section className={`mb-12 ${className}`}>
       <h2 className='text-xl font-semibold text-[var(--text-primary)] mb-4 pb-2 border-b border-[var(--border-color)]'>
