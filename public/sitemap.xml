@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Página principal -->
+  <url>
+    <loc>https://leira-ui.vercel.app/</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Componentes de Formulario -->
+  <url>
+    <loc>https://leira-ui.vercel.app/buttons</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/inputs</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Componentes de Layout -->
+  <url>
+    <loc>https://leira-ui.vercel.app/cards</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Componentes de Feedback -->
+  <url>
+    <loc>https://leira-ui.vercel.app/alerts</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/modals</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/tooltips</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/spinners</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Componentes de Navegación -->
+  <url>
+    <loc>https://leira-ui.vercel.app/menu</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/tabs</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/accordion</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Componentes de Sección -->
+  <url>
+    <loc>https://leira-ui.vercel.app/footer</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Componentes de Display -->
+  <url>
+    <loc>https://leira-ui.vercel.app/badges</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://leira-ui.vercel.app/carousel</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

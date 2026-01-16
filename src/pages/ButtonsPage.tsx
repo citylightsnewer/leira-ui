@@ -3,6 +3,7 @@ import { CodePreview, PropsTable } from '../components/docs/CodePreview'
 import { Button } from '../components/ui/Button'
 import { ArrowRight, Download, Heart, Send } from 'lucide-react'
 import { useInstallMethod } from '../context/InstallMethodContext'
+import { useSEO } from '../hooks/useSEO'
 
 const buttonCode = `import { type ButtonHTMLAttributes, type ReactNode } from 'react'
 
@@ -81,13 +82,19 @@ const buttonProps = [
   { name: 'disabled', type: 'boolean', default: 'false', description: 'Deshabilita el botón' }
 ]
 
-export function ButtonsPage() {
+export function ButtonsPage () {
   const { installMethod } = useInstallMethod()
   const isNpm = installMethod === 'npm'
 
+  useSEO({
+    title: 'Buttons',
+    description: 'Componentes Button con múltiples variantes: primary, secondary, outline, ghost, danger, success. Incluye tamaños, estados de carga, iconos y más.',
+    canonical: 'https://leira-ui.vercel.app/buttons'
+  })
+
   const importStatement = isNpm
-    ? `import { Button } from 'leira-ui'`
-    : `import { Button } from './components/ui/Button'`
+    ? 'import { Button } from \'leira-ui\''
+    : 'import { Button } from \'./components/ui/Button\''
 
   const variantsCode = `${importStatement}
 

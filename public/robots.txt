@@ -1,0 +1,17 @@
+# Leira UI - Robots.txt
+# https://leira-ui.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://leira-ui.vercel.app/sitemap.xml
+
+# Rastreo preferido
+Crawl-delay: 1
+
+# Permitir todos los recursos importantes
+Allow: /leira-ui.svg
+Allow: /preview.png
+Allow: /*.css$
+Allow: /*.js$
