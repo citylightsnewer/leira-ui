@@ -50,4 +50,15 @@ interface TestimonialCarouselProps {
     className?: string;
 }
 export declare function TestimonialCarousel({ testimonials, autoPlay, interval, className }: TestimonialCarouselProps): import("react/jsx-runtime").JSX.Element;
+interface CoverflowCarouselProps {
+    images: Array<{
+        src: string;
+        alt: string;
+        caption?: string;
+    }>;
+    autoPlay?: boolean;
+    interval?: number;
+    className?: string;
+}
+export declare function CoverflowCarousel({ images, autoPlay, interval, className }: CoverflowCarouselProps): import("react/jsx-runtime").JSX.Element;
 export {};

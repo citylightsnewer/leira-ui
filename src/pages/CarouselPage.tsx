@@ -117,39 +117,60 @@ export function CarouselPage() {
   const isNpm = installMethod === 'npm'
 
   const importStatement = isNpm
-    ? `import { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel } from 'leira-ui'`
-    : `import { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel } from './components/ui/Carousel'`
+    ? `import { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel, CoverflowCarousel } from 'leira-ui'`
+    : `import { Carousel, ImageCarousel, CardCarousel, TestimonialCarousel, CoverflowCarousel } from './components/ui/Carousel'`
 
-  const imageCode = `${importStatement}
+  const imageCode = `${isNpm
+    ? `import { ImageCarousel } from 'leira-ui'`
+    : `import { ImageCarousel } from './components/ui/Carousel'`}
 
-const images = [
-  { src: 'url1', alt: 'Imagen 1', caption: 'Descripción 1' },
-  { src: 'url2', alt: 'Imagen 2', caption: 'Descripción 2' },
+const sampleImages = [
+  { src: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop', alt: 'Código', caption: 'Desarrollo de software moderno' },
+  { src: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop', alt: 'Diseño', caption: 'Diseño de interfaces intuitivas' },
+  { src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop', alt: 'Analytics', caption: 'Análisis de datos en tiempo real' }
 ]
 
-<ImageCarousel images={images} autoPlay interval={4000} />`
+<ImageCarousel images={sampleImages} autoPlay interval={4000} />`
 
-  const cardCode = `${importStatement}
-import { Card, CardBody } from 'leira-ui'
+  const cardCode = `${isNpm
+    ? `import { CardCarousel, Card, CardBody } from 'leira-ui'`
+    : `import { CardCarousel } from './components/ui/Carousel'
+import { Card, CardBody } from './components/ui/Card'`}
 
 <CardCarousel visibleCards={3} gap={16}>
-  <Card hover>...</Card>
-  <Card hover>...</Card>
+  <Card hover>
+    <CardBody>
+      <h4 className="font-semibold mb-2">Card 1</h4>
+      <p className="text-sm">Contenido de ejemplo</p>
+    </CardBody>
+  </Card>
+  <Card hover>
+    <CardBody>
+      <h4 className="font-semibold mb-2">Card 2</h4>
+      <p className="text-sm">Contenido de ejemplo</p>
+    </CardBody>
+  </Card>
 </CardCarousel>`
 
-  const testimonialCode = `${importStatement}
+  const testimonialCode = `${isNpm
+    ? `import { TestimonialCarousel } from 'leira-ui'`
+    : `import { TestimonialCarousel } from './components/ui/Carousel'`}
 
 const testimonials = [
-  { id: '1', content: 'Texto...', author: 'Nombre', role: 'Cargo' },
+  { id: '1', content: 'Texto del testimonio aquí...', author: 'Nombre Apellido', role: 'Cargo / Empresa' },
+  { id: '2', content: 'Otro testimonio...', author: 'Otro Nombre', role: 'Otro Cargo' }
 ]
 
-<TestimonialCarousel testimonials={testimonials} autoPlay />`
+<TestimonialCarousel testimonials={testimonials} autoPlay interval={6000} />`
 
-  const basicCode = `${importStatement}
+  const basicCode = `${isNpm
+    ? `import { Carousel } from 'leira-ui'`
+    : `import { Carousel } from './components/ui/Carousel'`}
 
 const items = [
-  { id: '1', content: <div>Slide 1</div> },
-  { id: '2', content: <div>Slide 2</div> },
+  { id: '1', content: <div className="h-48 bg-violet-600 rounded-xl flex items-center justify-center text-white">Slide 1</div> },
+  { id: '2', content: <div className="h-48 bg-emerald-600 rounded-xl flex items-center justify-center text-white">Slide 2</div> },
+  { id: '3', content: <div className="h-48 bg-amber-600 rounded-xl flex items-center justify-center text-white">Slide 3</div> }
 ]
 
 <Carousel items={items} showArrows showDots />`

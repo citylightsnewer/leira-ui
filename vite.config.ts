@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
         react(),
         {
           name: 'copy-styles',
-          closeBundle() {
+          closeBundle () {
             // Copy styles.css to dist-lib
             copyFileSync(
               resolve(__dirname, 'src/components/ui/styles.css'),

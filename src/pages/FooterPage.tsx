@@ -83,60 +83,126 @@ const socialLinks = [
   { icon: <Mail className='w-5 h-5' />, href: '#', label: 'Email' }
 ]
 
-export function FooterPage() {
+export function FooterPage () {
   const { installMethod } = useInstallMethod()
   const isNpm = installMethod === 'npm'
 
-  const importStatement = isNpm
-    ? `import { SimpleFooter, MultiColumnFooter, CenteredFooter, NewsletterFooter } from 'leira-ui'`
-    : `import { SimpleFooter, MultiColumnFooter, CenteredFooter, NewsletterFooter } from './components/ui/Footer'`
+  const simpleCode = `${isNpm
+    ? 'import { SimpleFooter } from \'leira-ui\''
+    : 'import { SimpleFooter } from \'./components/ui/Footer\''}
 
-  const simpleCode = `${importStatement}
+const links = [
+  { label: 'Inicio', href: '#' },
+  { label: 'Nosotros', href: '#' },
+  { label: 'Servicios', href: '#' },
+  { label: 'Contacto', href: '#' }
+]
 
 <SimpleFooter
-  logo={<span className="font-bold">Logo</span>}
-  copyright="© 2024 Mi Empresa"
-  links={[
-    { label: 'Inicio', href: '#' },
-    { label: 'Nosotros', href: '#' },
-    { label: 'Contacto', href: '#' }
-  ]}
+  logo={<span className="font-bold gradient-text">Logo</span>}
+  copyright="© 2024 Mi Empresa. Todos los derechos reservados."
+  links={links}
 />`
 
-  const multiColumnCode = `${importStatement}
-import { Github, Twitter, Linkedin } from 'lucide-react'
+  const multiColumnCode = `${isNpm
+    ? 'import { MultiColumnFooter } from \'leira-ui\''
+    : 'import { MultiColumnFooter } from \'./components/ui/Footer\''}
+import { Github, Twitter, Linkedin, Mail } from 'lucide-react'
+
+const sections = [
+  {
+    title: 'Producto',
+    links: [
+      { label: 'Características', href: '#' },
+      { label: 'Precios', href: '#' },
+      { label: 'API', href: '#' }
+    ]
+  },
+  {
+    title: 'Empresa',
+    links: [
+      { label: 'Nosotros', href: '#' },
+      { label: 'Blog', href: '#' },
+      { label: 'Carreras', href: '#' }
+    ]
+  },
+  {
+    title: 'Soporte',
+    links: [
+      { label: 'Ayuda', href: '#' },
+      { label: 'Docs', href: '#' },
+      { label: 'Contacto', href: '#' }
+    ]
+  }
+]
+
+const socialLinks = [
+  { icon: <Github className="w-5 h-5" />, href: '#', label: 'GitHub' },
+  { icon: <Twitter className="w-5 h-5" />, href: '#', label: 'Twitter' },
+  { icon: <Linkedin className="w-5 h-5" />, href: '#', label: 'LinkedIn' }
+]
 
 <MultiColumnFooter
-  logo={<span className="font-bold">Logo</span>}
+  logo={<span className="font-bold gradient-text">Logo</span>}
   description="Tu descripción aquí..."
-  sections={[
-    { title: 'Producto', links: [...] },
-    { title: 'Empresa', links: [...] }
-  ]}
-  socialLinks={[
-    { icon: <Github />, href: '#', label: 'GitHub' }
-  ]}
+  sections={sections}
+  socialLinks={socialLinks}
   copyright="© 2024 Mi Empresa"
 />`
 
-  const centeredCode = `${importStatement}
+  const centeredCode = `${isNpm
+    ? 'import { CenteredFooter } from \'leira-ui\''
+    : 'import { CenteredFooter } from \'./components/ui/Footer\''}
+import { Github, Twitter, Linkedin } from 'lucide-react'
+
+const links = [
+  { label: 'Inicio', href: '#' },
+  { label: 'Nosotros', href: '#' },
+  { label: 'Servicios', href: '#' },
+  { label: 'Contacto', href: '#' }
+]
+
+const socialLinks = [
+  { icon: <Github className="w-5 h-5" />, href: '#', label: 'GitHub' },
+  { icon: <Twitter className="w-5 h-5" />, href: '#', label: 'Twitter' },
+  { icon: <Linkedin className="w-5 h-5" />, href: '#', label: 'LinkedIn' }
+]
 
 <CenteredFooter
-  logo={<span className="font-bold">Logo</span>}
+  logo={<span className="font-bold gradient-text">Logo</span>}
   tagline="Tu eslogan aquí"
-  links={[...]}
-  socialLinks={[...]}
+  links={links}
+  socialLinks={socialLinks}
   copyright="© 2024 Mi Empresa"
 />`
 
-  const newsletterCode = `${importStatement}
+  const newsletterCode = `${isNpm
+    ? 'import { NewsletterFooter } from \'leira-ui\''
+    : 'import { NewsletterFooter } from \'./components/ui/Footer\''}
+
+const sections = [
+  {
+    title: 'Producto',
+    links: [
+      { label: 'Características', href: '#' },
+      { label: 'Precios', href: '#' }
+    ]
+  },
+  {
+    title: 'Empresa',
+    links: [
+      { label: 'Nosotros', href: '#' },
+      { label: 'Blog', href: '#' }
+    ]
+  }
+]
 
 <NewsletterFooter
-  logo={<span className="font-bold">Logo</span>}
+  logo={<span className="font-bold gradient-text">Logo</span>}
   title="Suscríbete a nuestro newsletter"
   description="Recibe las últimas novedades..."
-  onSubmit={(email) => console.log(email)}
-  sections={[...]}
+  onSubmit={(email) => console.log('Email:', email)}
+  sections={sections}
   copyright="© 2024 Mi Empresa"
 />`
 

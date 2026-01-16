@@ -87,7 +87,8 @@ export function ModalsPage() {
     : `import { Modal, ModalFooter } from './components/ui/Modal'
 import { Button } from './components/ui/Button'`
 
-  const basicCode = `${importStatement}
+  const basicCode = `import { useState } from 'react'
+${importStatement}
 
 const [isOpen, setIsOpen] = useState(false)
 

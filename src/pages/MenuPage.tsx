@@ -56,7 +56,9 @@ const sidebarProps = [
 const navItems = [
   { id: 'home', label: 'Inicio', href: '#' },
   {
-    id: 'products', label: 'Productos', children: [
+    id: 'products',
+    label: 'Productos',
+    children: [
       { id: 'p1', label: 'Software', href: '#', icon: <FileText className='w-4 h-4' /> },
       { id: 'p2', label: 'Servicios', href: '#', icon: <Settings className='w-4 h-4' /> }
     ]
@@ -79,59 +81,72 @@ const dropdownItems = [
   { id: 'logout', label: 'Cerrar Sesión', icon: <LogOut className='w-4 h-4' />, onClick: () => { } }
 ]
 
-export function MenuPage() {
+export function MenuPage () {
   const { installMethod } = useInstallMethod()
   const isNpm = installMethod === 'npm'
 
   const importStatement = isNpm
-    ? `import { Navbar, DropdownMenu, Sidebar, Breadcrumb } from 'leira-ui'`
-    : `import { Navbar, DropdownMenu, Sidebar, Breadcrumb } from './components/ui/Menu'`
+    ? 'import { Navbar, DropdownMenu, Sidebar, Breadcrumb, Button } from \'leira-ui\''
+    : `import { Navbar, DropdownMenu, Sidebar, Breadcrumb } from './components/ui/Menu'
+import { Button } from './components/ui/Button'`
 
   const navbarDemoCode = `${importStatement}
 
-const items = [
+const navItems = [
   { id: 'home', label: 'Inicio', href: '#' },
   { id: 'products', label: 'Productos', children: [
     { id: 'p1', label: 'Software', href: '#' },
     { id: 'p2', label: 'Servicios', href: '#' }
   ]},
+  { id: 'about', label: 'Nosotros', href: '#' },
+  { id: 'contact', label: 'Contacto', href: '#' }
 ]
 
 <Navbar
   logo={<span className="font-bold">Logo</span>}
-  items={items}
+  items={navItems}
   variant="default"
   actions={<Button size="sm">Acceder</Button>}
 />`
 
-  const dropdownCode = `${importStatement}
+  const dropdownCode = `${isNpm
+    ? 'import { DropdownMenu, Button } from \'leira-ui\''
+    : `import { DropdownMenu } from './components/ui/Menu'
+import { Button } from './components/ui/Button'`}
 import { User, Settings, LogOut } from 'lucide-react'
 
-const items = [
-  { id: 'profile', label: 'Mi Perfil', icon: <User />, onClick: () => {} },
-  { id: 'settings', label: 'Configuración', icon: <Settings />, onClick: () => {} },
-  { id: 'logout', label: 'Cerrar Sesión', icon: <LogOut />, onClick: () => {} }
+const dropdownItems = [
+  { id: 'profile', label: 'Mi Perfil', icon: <User className="w-4 h-4" />, onClick: () => {} },
+  { id: 'settings', label: 'Configuración', icon: <Settings className="w-4 h-4" />, onClick: () => {} },
+  { id: 'logout', label: 'Cerrar Sesión', icon: <LogOut className="w-4 h-4" />, onClick: () => {} }
 ]
 
 <DropdownMenu
-  trigger={<Button variant="secondary">Menú</Button>}
-  items={items}
+  trigger={<Button variant="secondary">Menú Usuario</Button>}
+  items={dropdownItems}
 />`
 
-  const sidebarCode = `${importStatement}
-import { Home, User, Settings, Bell } from 'lucide-react'
+  const sidebarCode = `${isNpm
+    ? 'import { Sidebar } from \'leira-ui\''
+    : 'import { Sidebar } from \'./components/ui/Menu\''}
+import { Home, Use                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              r, Settings, Bell, HelpCircle } from 'lucide-react'
 
-const items = [
-  { id: 'home', label: 'Dashboard', href: '#', icon: <Home /> },
-  { id: 'profile', label: 'Perfil', href: '#', icon: <User /> },
+const sidebarItems = [
+  { id: 'home', label: 'Dashboard', href: '#', icon: <Home className="w-5 h-5" /> },
+  { id: 'profile', label: 'Perfil', href: '#', icon: <User className="w-5 h-5" /> },
+  { id: 'notifications', label: 'Notificaciones', href: '#', icon: <Bell className="w-5 h-5" /> },
+  { id: 'settings', label: 'Configuración', href: '#', icon: <Settings className="w-5 h-5" /> },
+  { id: 'help', label: 'Ayuda', href: '#', icon: <HelpCircle className="w-5 h-5" /> }
 ]
 
 <Sidebar
-  items={items}
+  items={sidebarItems}
   header={<span className="font-bold">Panel</span>}
 />`
 
-  const breadcrumbCode = `${importStatement}
+  const breadcrumbCode = `${isNpm
+    ? 'import { Breadcrumb } from \'leira-ui\''
+    : 'import { Breadcrumb } from \'./components/ui/Menu\''}
 
 <Breadcrumb
   items={[
@@ -178,7 +193,22 @@ const items = [
       </Section>
 
       <Section title='Navbar Variantes'>
-        <CodePreview code={`<Navbar variant="bordered" ... />`}>
+        <CodePreview code={`${isNpm
+          ? 'import { Navbar } from \'leira-ui\''
+          : 'import { Navbar } from \'./components/ui/Menu\''}
+
+const navItems = [
+  { id: 'home', label: 'Inicio', href: '#' },
+  { id: 'about', label: 'Nosotros', href: '#' },
+  { id: 'contact', label: 'Contacto', href: '#' }
+]
+
+<Navbar 
+  logo={<span className="font-bold">Logo</span>} 
+  items={navItems} 
+  variant="bordered" 
+/>`}
+        >
           <div className='w-full pb-20'>
             <Navbar logo={<span className='font-bold'>Bordered</span>} items={navItems.slice(0, 3)} variant='bordered' />
           </div>
@@ -186,25 +216,39 @@ const items = [
       </Section>
 
       <Section title='Navbar con Usuario'>
-        <CodePreview code={`<Navbar
+        <CodePreview code={`${isNpm
+          ? 'import { Navbar, DropdownMenu } from \'leira-ui\''
+          : 'import { Navbar, DropdownMenu } from \'./components/ui/Menu\''}
+import { User, Settings, LogOut } from 'lucide-react'
+
+const navItems = [
+  { id: 'home', label: 'Inicio', href: '#' },
+  { id: 'products', label: 'Productos', href: '#' },
+  { id: 'about', label: 'Nosotros', href: '#' }
+]
+
+const userMenuItems = [
+  { id: 'profile', label: 'Mi Perfil', icon: <User className="w-4 h-4" />, onClick: () => {} },
+  { id: 'settings', label: 'Configuración', icon: <Settings className="w-4 h-4" />, onClick: () => {} },
+  { id: 'logout', label: 'Cerrar Sesión', icon: <LogOut className="w-4 h-4" />, onClick: () => {} }
+]
+
+<Navbar
   logo={<span className="font-bold">Mi App</span>}
   items={navItems}
   actions={
     <DropdownMenu
       trigger={
-        <button className="flex items-center gap-2 p-2 rounded-full hover:bg-[var(--bg-hover)]">
-          <User className="w-6 h-6" />
+        <button className="p-2 rounded-full bg-violet-500/20 hover:bg-violet-500/30">
+          <User className="w-5 h-5 text-violet-400" />
         </button>
       }
-      items={[
-        { id: 'profile', label: 'Mi Perfil', icon: <User />, onClick: () => {} },
-        { id: 'settings', label: 'Configuración', icon: <Settings />, onClick: () => {} },
-        { id: 'logout', label: 'Cerrar Sesión', icon: <LogOut />, onClick: () => {} }
-      ]}
+      items={userMenuItems}
       position="right"
     />
   }
-/>`}>
+/>`}
+        >
           <div className='w-full rounded-xl border border-[var(--border-color)] pb-32'>
             <Navbar
               logo={<span className='text-lg font-bold gradient-text'>Mi App</span>}
@@ -264,7 +308,8 @@ const items = [
               { label: 'Productos', href: '#' },
               { label: 'Software', href: '#' },
               { label: 'Detalles' }
-            ]} />
+            ]}
+            />
             <Breadcrumb
               items={[{ label: 'Dashboard', href: '#' }, { label: 'Usuarios' }]}
               separator='›'

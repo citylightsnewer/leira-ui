@@ -16,7 +16,7 @@ import { MenuPage } from './pages/MenuPage'
 import { FooterPage } from './pages/FooterPage'
 import { InstallMethodProvider } from './context/InstallMethodContext'
 
-function App() {
+function App () {
   return (
     <InstallMethodProvider>
       <Layout>
