@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://github.com/citylightsnewer/leira-ui"><img src="https://img.shields.io/badge/GitHub-Repositorio-181717?logo=github" alt="GitHub" /></a>
-  <a href="https://ko-fi.com/leira_qc"><img src="https://img.shields.io/badge/Ko--fi-Donar-FF5E5B?logo=kofi" alt="Ko-fi" /></a>
+  <a href="https://buymeacoffee.com/leira_qc"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donar-FFDD00?logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee" /></a>
 </p>
 
 ---

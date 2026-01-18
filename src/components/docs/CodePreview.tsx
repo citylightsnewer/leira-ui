@@ -9,7 +9,7 @@ interface CodePreviewProps {
   language?: string
 }
 
-export function CodePreview({ children, code, title, language = 'tsx' }: CodePreviewProps) {
+export function CodePreview ({ children, code, title, language = 'tsx' }: CodePreviewProps) {
   const [copied, setCopied] = useState(false)
   const [showCode, setShowCode] = useState(false)
 
@@ -21,21 +21,18 @@ export function CodePreview({ children, code, title, language = 'tsx' }: CodePre
 
   return (
     <div className='rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)]'>
-      {/* Header */}
       {title && (
         <div className='px-4 py-3 border-b border-[var(--border-color)]'>
           <span className='text-sm font-medium text-[var(--text-secondary)]'>{title}</span>
         </div>
       )}
 
-      {/* Preview */}
       <div className='p-6 bg-[var(--bg-secondary)]/50'>
         <div className='flex flex-wrap items-center gap-4'>
           {children}
         </div>
       </div>
 
-      {/* Actions */}
       <div className='flex items-center justify-between px-4 py-2 border-t border-[var(--border-color)] bg-[var(--bg-primary)]/50'>
         <button
           onClick={() => setShowCode(!showCode)}
@@ -59,7 +56,6 @@ export function CodePreview({ children, code, title, language = 'tsx' }: CodePre
         </button>
       </div>
 
-      {/* Code with Syntax Highlighting */}
       {showCode && (
         <div className='border-t border-[var(--border-color)] overflow-x-auto'>
           <Highlight theme={themes.nightOwl} code={code.trim()} language={language}>
@@ -87,7 +83,6 @@ export function CodePreview({ children, code, title, language = 'tsx' }: CodePre
   )
 }
 
-// Props Table component
 interface PropDefinition {
   name: string
   type: string
@@ -99,7 +94,7 @@ interface PropsTableProps {
   props: PropDefinition[]
 }
 
-export function PropsTable({ props }: PropsTableProps) {
+export function PropsTable ({ props }: PropsTableProps) {
   return (
     <div className='overflow-x-auto rounded-xl border border-[var(--border-color)]'>
       <table className='w-full text-sm'>

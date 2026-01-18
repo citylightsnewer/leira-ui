@@ -1,19 +1,17 @@
 import { type ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
-import { Github, Heart } from 'lucide-react'
+import { Github, Coffee } from 'lucide-react'
 
 interface LayoutProps {
   children: ReactNode
 }
 
-export function Layout({ children }: LayoutProps) {
+export function Layout ({ children }: LayoutProps) {
   return (
     <div className='min-h-screen bg-[var(--bg-primary)]'>
       <Sidebar />
 
-      {/* Main Content */}
       <main className='lg:pl-64'>
-        {/* Header */}
         <header className='sticky top-0 z-30 h-16 bg-[var(--bg-primary)]/80 backdrop-blur-lg border-b border-[var(--border-color)]'>
           <div className='flex items-center justify-between h-full px-6 lg:px-8'>
             <div className='lg:hidden' /> {/* Spacer for mobile menu button */}
@@ -24,12 +22,12 @@ export function Layout({ children }: LayoutProps) {
             </div>
             <div className='flex items-center gap-2'>
               <a
-                href='https://ko-fi.com/leira_qc'
+                href='https://buymeacoffee.com/leira_qc'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-medium hover:from-pink-400 hover:to-rose-400 transition-all shadow-lg shadow-pink-500/25'
+                className='flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-sm font-medium hover:from-amber-300 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/25'
               >
-                <Heart className='w-4 h-4' />
+                <Coffee className='w-4 h-4' />
                 <span className='hidden sm:inline'>Donar</span>
               </a>
               <a
@@ -44,7 +42,6 @@ export function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        {/* Page Content */}
         <div className='p-6 lg:p-8'>
           {children}
         </div>
@@ -53,13 +50,12 @@ export function Layout({ children }: LayoutProps) {
   )
 }
 
-// Page Header component
 interface PageHeaderProps {
   title: string
   description: string
 }
 
-export function PageHeader({ title, description }: PageHeaderProps) {
+export function PageHeader ({ title, description }: PageHeaderProps) {
   return (
     <div className='mb-8'>
       <h1 className='text-3xl font-bold text-[var(--text-primary)] mb-2'>{title}</h1>
@@ -68,14 +64,13 @@ export function PageHeader({ title, description }: PageHeaderProps) {
   )
 }
 
-// Section component
 interface SectionProps {
   title: string
   children: ReactNode
   className?: string
 }
 
-export function Section({ title, children, className = '' }: SectionProps) {
+export function Section ({ title, children, className = '' }: SectionProps) {
   return (
     <section className={`mb-12 ${className}`}>
       <h2 className='text-xl font-semibold text-[var(--text-primary)] mb-4 pb-2 border-b border-[var(--border-color)]'>

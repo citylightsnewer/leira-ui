@@ -41,12 +41,11 @@ const navItems: NavItem[] = [
   { to: '/footer', label: 'Footer', icon: LayoutTemplate }
 ]
 
-export function Sidebar() {
+export function Sidebar () {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
-      {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(true)}
         className='fixed top-4 left-4 z-50 p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] lg:hidden'
@@ -54,7 +53,6 @@ export function Sidebar() {
         <Menu className='w-5 h-5' />
       </button>
 
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden'
@@ -62,7 +60,6 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
           fixed top-0 left-0 z-40 h-screen w-64
@@ -72,7 +69,6 @@ export function Sidebar() {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
-        {/* Header */}
         <div className='flex items-center justify-between h-16 px-4 border-b border-[var(--border-color)]'>
           <div className='flex items-center gap-3'>
             <div className='bg-white rounded-lg p-1'>
@@ -88,7 +84,6 @@ export function Sidebar() {
           </button>
         </div>
 
-        {/* Navigation */}
         <nav className='p-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)]'>
           <p className='px-3 py-2 text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider'>
             Componentes
